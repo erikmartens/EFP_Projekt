@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+body {
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+}
+
+html, div, p, body {
+    margin: 0;
+}
+
+.eliza-chat-outer-container {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 16px;
+}
+
+.eliza-chat-header-container {
+    display: flex;
+    margin: 8px;
+    align-content: center;
+    justify-content: center;
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+.eliza-chat-container {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+    overflow: auto;
+    max-height: 450px;
+}
+
+.eliza-chat-message-container {
+    display: flex;
+    flex-direction: row;
+    margin: 8px 0px;
+}
+
+.user-message-container {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
+.eliza-message-container {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+}
+
+.user-message {
+    background-color: aliceblue;
+}
+
+.eliza-message {
+    background-color: aquamarine;
+}
+
+.eliza-chat-input-container {
+    display: flex;
+    margin: 16px;
+}
+
+.eliza-chat-input {
+    display: flex;
+    line-height: 1.5;
+    padding: 8px;
+    width: 250px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: aliceblue;
+}
+
+.chat-message {
+    display: flex;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+}
