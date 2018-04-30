@@ -1,0 +1,79 @@
+[{
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Muss ich mich selbst um eine geeignete Praktikantenstelle kümmern?",
+  "intent": "NEED_TO_SEARCH_FOR_INTERNSHIP"
+}, {
+  "question": "Wie finde ich eine Praktikumsstelle?",
+  "intent": "HOW_TO_SEARCH_FOR_INTERNSHIP"
+}, {
+  "question": "und im Ausland?",
+  "intent": "HOW_TO_SEARCH_FOR_FOREIGN_INTERNSHIP"
+}, {
+  "question": "icht in's Ausland und trotzdem Erasmus - wie geht denn das?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}, {
+  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "intent": "ADDITIONAL_INFORMATION"
+}]
