@@ -1,0 +1,21 @@
+version: '3'
+services:
+  efp-frontend:
+    image: efp-frontend
+    networks:
+      - efp
+  efp-reverse-proxy:
+    image: efp-reverse-proxy
+    networks:
+      - efp
+    ports:
+      - '8080:80'
+    depends_on:
+      - efp-backend
+      - efp-frontend
+  efp-backend:
+    image: efp-backend
+    networks:
+      - efp
+networks:
+  efp:
