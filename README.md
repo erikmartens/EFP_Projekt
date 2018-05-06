@@ -6,20 +6,20 @@
 
 __Erik__
 - [ ] Fragen-Erkennen-Lösungen finden
-- [ ] Dokumentation eiegener Teil
+- [ ] Dokumentation eigener Teil
 - [ ] Telegram Schnittstelle
 - [ ] Web-Frontend (Design)
 - [ ] Präsentation
 
 __Johannes__
 - [ ] Fragen-Erkennen-Lösungen finden
-- [ ] Dokumentation eiegener Teil
-- [ ] Email Scnittstelle
+- [ ] Dokumentation eigener Teil
+- [ ] Email Schnittstelle
 
 __Nico__
-- [ ] Dev-Ops & Deployment
 - [ ] Fragen-Erkennen-Lösungen finden
-- [ ] Dokumentation eiegener Teil
+- [ ] Dokumentation eigener Teil
+- [ ] Dev-Ops & Deployment
 - [ ] Web-Frontend (Funktionen)
 
 
