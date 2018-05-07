@@ -231,7 +231,7 @@
     (->> (get-matching-psychobabble psychobabble statement-without-punctuation)
          (prepare-answer statement-without-punctuation))))
 (defroutes app-routes
-           (GET "/query" {params :params}
+           (GET "/api/query" {params :params}
                 (get params "val")
                 (response (json/write-str { :message (analyze (str (params :q)) ) }))))
 (def app

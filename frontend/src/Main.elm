@@ -100,7 +100,7 @@ update msg model =
 fetchElizaMessage : String -> Cmd Msg
 fetchElizaMessage userMessage =
     Http.get
-        ("http://localhost:5000/query"
+        ("/api/query"
             ++ "?q="
             ++ userMessage
         )
