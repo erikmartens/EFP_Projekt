@@ -1,8 +1,8 @@
-# EFP_Projekt
+# EFP_Projekt - Chat Bot
 
-## Chat Bot
+---
 
-### Aufgaben-Verteilung
+## Aufgaben-Verteilung
 
 __Erik__
 - [ ] Fragen-Erkennen-Lösungen finden
@@ -22,8 +22,9 @@ __Nico__
 - [ ] Dev-Ops & Deployment
 - [ ] Web-Frontend (Funktionen)
 
+---
 
-### Anforderungen
+## Anforderungen
 
 __Allgemein (Projekt)__
 - [ ] muss bei der Abschlusspräsentation am 25.06. von mindestens einem Gruppenmitglied demonstriert werden.
@@ -50,3 +51,33 @@ __Dokumentation__
 - [ ] muss die Schnittstelle des Micro-Service spezifizieren.
 - [ ] soll den Aufbau des Micro-Service erläutern und die verwendeten Design Patterns für funktionale Programmierung aufzeigen.
 - [ ] soll den Mechanismus, mit dem der entwickelte Micro-Service Benutzereingaben klassifiziert, beschreiben.
+
+---
+
+## REST-Schnittstelle
+
+### Chat Nachricht zum Bot schicken
+
+#### Request
+- Resource: Query
+- Body: 
+	`{ 
+		userId: String, 
+		userChatMessage: String,
+		timeStamp: Number 
+	}`
+
+#### Response
+- Resource:
+- StatusCode: HTTP-Status-Code
+- Body: 
+	`{ 
+		statusCode: Number, 
+		userId: String, 
+		userChatMessage: String, 
+		botChatMessage: String, 
+		intentName: String, 
+		timeStamp: Number 
+	}`
+
+---
