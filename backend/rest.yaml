@@ -1,0 +1,58 @@
+swagger: "2.0"
+info:
+  description: "Chatbot rest api"
+  version: "1.0.0"
+  title: EFP Chatbot Backend
+basePath: "/api"
+schemes:
+- "http"
+paths:
+  /query:
+    post:
+      summary: "Send a chatmessage to the backend"
+      description: "This request sends a chat message to the backend. It will receive a bot answer."
+      operationId: "queryBot"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: Chat message
+        required: true
+        schema:
+          $ref: "#/definitions/ChatRequest"
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ChatResponse'
+definitions:
+  ChatRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+      timeStamp:
+        type: integer
+        format: int64
+      userChatMessage:
+        type: string
+  ChatResponse:
+    type: object
+    properties:
+      statusCode:
+        type: integer
+        format: int64
+      userId:
+        type: string
+      userChatMessage:
+        type: string
+      botChatMessage:
+        type: string
+      intentName:
+        type: string
+      timeStamp:
+        type: integer
+        format: int64
