@@ -5,7 +5,8 @@
             [ring.util.response :refer [response]]
             [ring.adapter.jetty :refer [run-jetty]]
             [clojure.data.json :as json]
-            [ring.middleware.cors :refer [wrap-cors]]))
+            [ring.middleware.cors :refer [wrap-cors]]
+            [ring.middleware.json :refer [wrap-json-body]]))
 (def reflections { :am "are" :was "were" :i "you" :i'd "you would" :i've "you have" :i'll "you will" :my "your" :are "am" :you've "I have" :you'll "I will" :your "my" :yours "mine" :you "me" :me "you"})
 (def psychobabble '({ :question #"I need (.*)"
                       :answers ["Why do you need {0}?"
@@ -231,13 +232,23 @@
     (->> (get-matching-psychobabble psychobabble statement-without-punctuation)
          (prepare-answer statement-without-punctuation))))
 (defroutes app-routes
-           (GET "/api/query" {params :params}
-                (get params "val")
-                (response (json/write-str { :message (analyze (str (params :q)) ) }))))
+           (POST "/api/query" {body :body}
+                 (println body)
+                 (let [{timeStamp :timeStamp userId :userId userChatMessage :userChatMessage } body]
+                   (response (json/write-str {
+                                               :timeStamp timeStamp
+                                               :userId userId
+                                               :userChatMessage userChatMessage
+                                               :statusCode 200
+                                               :botChatMessage (analyze userChatMessage)
+                                               :intentName "DummyIntent"})))
+                 ))
 (def app
   (-> (site app-routes)
-      (wrap-cors :access-control-allow-origin [#".*"]
+      (wrap-json-body {:keywords? true :bigdecimals? true})
+        (wrap-cors :access-control-allow-origin [#".*"]
                  :access-control-allow-methods [:get :put :post :delete]
-                 :access-control-allow-headers ["Content-Type"])))
+                 :access-control-allow-headers ["Content-Type"])
+      ))
 (defn -main [& args]
   (run-jetty app {:port 5000}))
