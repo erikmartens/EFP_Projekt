@@ -9,6 +9,6 @@ cd ../frontend
 # install all packages
 elm-package install --yes
 
-elm-make src/Main.elm --output efp-frontend.js
+elm-make src/Main.elm --output efp-frontend.js --debug --warn
 
 docker build -t efp-frontend .
