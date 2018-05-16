@@ -22,7 +22,7 @@ Rechtschreibüberprüfung:
  
 [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector)
 
-[Snowball Stemmer](https://clojars.org/org.clojars.gnarmis/snowball-stemmer)
+[Snowball Stemmer](https://clojars.org/snowball-stemmer)
 
 Cosine Similariy:
 

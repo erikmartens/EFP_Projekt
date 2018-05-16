@@ -1,12 +1,27 @@
-
-(ns cosine-similarity.core
+(ns chatbot.recognition
   (:require [clojure.string :as str]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.data.json :as json]
+            [stemmer.snowball :as snowball]
+            [chatbot.utils]))
 
+(def stemmer (snowball/stemmer :german))
+
+;; stopWords : List String
+(def stop-words
+  (json/read-str (slurp (clojure.java.io/resource"stopwords.json")) :key-fn keyword))
+;; Types
+;;
+;; type ChatbotQuestion =
+;;  { :question String
+;;    :intent String
+;;    :answer String
+;;  }
 
 (defn split-words
   [input]
   (clojure.string/split (clojure.string/lower-case input) #"\W+"))
+; teilt ß
 
 (defn make-hash-of-words
   "Creates hash table [:word number-of-occurencies]"
@@ -16,6 +31,7 @@
     (fn [hash word] (assoc hash word (inc (get hash word 0))))
     hash-table
     (split-words input))))
+
 
 (defn hash-vec-length
   [hash]
@@ -29,6 +45,7 @@
    0
    hash1))
 
+
 (defn cosine-similarity-of-hashes
   [hash1 hash2]
   (let [product (future (hash-vec-product hash1 hash2))
@@ -36,48 +53,65 @@
         len2 (future (hash-vec-length hash2))]
     (/ @product (* @len1 @len2))))
 
+
 (defn cosine-similarity-of-strings
   [string1 string2]
   (let [hash1 (future (make-hash-of-words string1))
         hash2 (future (make-hash-of-words string2))]
     (cosine-similarity-of-hashes @hash1 @hash2)))
 
-(defn make-hash-of-words-from-file
-  [file]
-  (make-hash-of-words (slurp file)))
 
-(defn cosine-similarity-of-files
-  [file1 file2]
-  (let [hash1 (future (make-hash-of-words-from-file file1))
-        hash2 (future (make-hash-of-words-from-file file2))]
-    (cosine-similarity-of-hashes @hash1 @hash2)))
+;;    question process functions
 
-(def questions [
-                 "Wo finde ich ausführliche Informationen zum Praxissemester?"
-                 "Muss ich mich selbst um eine geeignete Praktikantenstelle kümmern?"
-                 "Wie finde ich eine Praktikumsstelle?"
-                 "und im Ausland?"
-                 "Nicht in's Ausland und trotzdem Erasmus - wie geht denn das?"
-                 "Welche Formalien sind vor Antritt des Praxissemesters zu beachten?"
-                 "Wie muss der Vertrag mit dem Unternehmen aussehen?"
-                 "Mein Vertrag sieht einen Zeitraum vor, der genau 100 Präsenztagen entspricht. Was passiert, wenn ich mal krank werden sollte?"
-                 "Gibt es vorgeschriebene Arbeitszeiten?"
-                 "BAföG im Praxissemester?"
-                 "Kann man das Praxissemester verschieben?"
-                 "Gründe und Voraussetzungen für das Verschieben"
-                 "IB RGS 6 (gültig ab WS 2014/2015), IMB RGS 4 (gültig ab WS 2014/2015), UIB RGS 3 (gültig ab SS 2015)"
-                 "IB RGS 7 (gültig ab WS 2017/2018), IMB RGS 5 (gültig ab WS 2017/2018), UIB RGS 4 (gültig ab WS 2017/2018)"
-                 "MEB RGS 1"
-                 "Prüfungen und Lehrveranstaltungen während des Praxissemesters"
-                 "Was ist beim Verschieben des Praxissemesters zu beachten?"
-                 "Können im Praxissemester auch Klausuren geschrieben werden?"
-                 "Schreibwerkstatt, wissenschaftliches Arbeiten (WIA), überfachliche Kompetenzen (UK)"
-                 "Gibt es spezifische Vorgaben für das Layout des Praxissemesterberichts?"
-                 "Wer hat die Rechte an Arbeitsergebnissen des Praxissemesters?"
-                 "Müssen Arbeitszeiten erfasst werden?"
-                 "Darf ich im Praxissemester remote arbeiten (Home Office)?"
-                 "Wann ist das Praxissemester formal erbracht?"])
 
-(defn get-answer [question]
-  (first (sort-by :similarity >(map (fn [quest] (hash-map :question quest :similarity (cosine-similarity-of-strings quest question))) questions))))
+;; remove-punctuation : String -> String
+(defn remove-punctuation [sentence]
+  (clojure.string/replace sentence #"(,|\.|\?|!|-)" ""))
 
+
+;; stem-sentence : String -> String
+(defn stem-sentence [sentence]
+  (->> (clojure.string/split sentence #" ")
+       (map (fn [ word ] (stemmer word)))
+       (clojure.string/join " ")))
+
+
+;; spelling-correction : String -> String
+(defn spelling-correction [ sentence ]
+  (sentence))
+
+
+(defn remove-stop-words [ question ]
+  (let [ question-words (seq (split-words question)) ]
+    (->> question-words
+         (reduce
+          (fn [ valid-question-words possible-stop-word ]
+            (if
+              (chatbot.utils/in? stop-words possible-stop-word)
+              valid-question-words
+              (conj valid-question-words possible-stop-word))) '())
+         (reverse)
+         (clojure.string/join " "))))
+
+
+;; question : List ChatbotQuestion
+(def questions
+  (map (fn [ chatbot-question ] (merge chatbot-question { :question (stem-sentence(remove-stop-words(remove-punctuation (:question chatbot-question))))}))  (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword)))
+
+;(def questions
+;  (for [ { question :question intent :intent answer :answer } (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword) ]
+;    ( { :question (remove-punctuation question) :intent intent :answer answer })))
+
+(chatbot.utils/effect-print questions)
+
+
+;(defn get-answer [question]
+;  (first (sort-by :similarity >(map (fn [quest] (hash-map :question quest :similarity (cosine-similarity-of-strings quest question))) questions))))
+
+;; answer : String -> ChatbotQuestion
+(defn answer [ question ]
+  (let [ question-without-punctuation (stem-sentence(remove-stop-words(remove-punctuation question))) ]
+    (->> questions
+       (map (fn [ faq-question ] (merge faq-question { :similarity (cosine-similarity-of-strings (:question faq-question) question-without-punctuation)})))
+       (sort-by :similarity >)
+       (first))))
