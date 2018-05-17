@@ -1,77 +1,69 @@
 [{
-  "question": "Wo finde ich ausführliche Informationen zum Praxissemester?",
+  "questions": ["Wo finde ich ausführliche Informationen zum Praxissemester?", "Was muss ich beim Praxissemster beachten?"],
   "intent": "ADDITIONAL_INFORMATION",
   "answer": "ADDITIONAL_INFORMATION"
 }, {
-  "question": "Muss ich mich selbst um eine geeignete Praktikantenstelle kümmern?",
+  "questions": ["Muss ich mich selbst um eine geeignete Praktikantenstelle kümmern?"],
   "intent": "INTERNSHIP_SEARCH_ALONE",
   "answer": "INTERNSHIP_SEARCH_ALONE"
 }, {
-  "question": "Wie finde ich eine Praktikumsstelle?",
+  "questions": ["Wie finde ich eine Praktikumsstelle?"],
   "intent": "INTERNSHIP_SEARCH",
   "answer": "INTERNSHIP_SEARCH"
 }, {
-  "question": "Wie finde ich eine Praktikumsstelle im Ausland?",
+  "questions": ["Wie finde ich eine Praktikumsstelle im Ausland?"],
   "intent": "INTERNSHIP_SEARCH_ABROAD",
   "answer": "INTERNSHIP_SEARCH_ABROAD"
 }, {
-  "question": "Nicht in's Ausland und trotzdem Erasmus - wie geht denn das?",
+  "questions": ["Nicht in's Ausland und trotzdem Erasmus - wie geht denn das?"],
   "intent": "INTERNSHIP_NOT_ABROAD_ERASMUS",
   "answer": "INTERNSHIP_NOT_ABROAD_ERASMUS"
 }, {
-  "question": "Welche Formalien sind vor Antritt des Praxissemesters zu beachten?",
+  "questions": ["Welche Formalien sind vor Antritt des Praxissemesters zu beachten?"],
   "intent": "INTERNSHIP_FORMALITY",
   "answer": "INTERNSHIP_FORMALITY"
 }, {
-  "question": "Wie muss der Vertrag mit dem Unternehmen aussehen?",
+  "questions": ["Wie muss der Vertrag mit dem Unternehmen aussehen?"],
   "intent": "INTERNSHIP_CONTRACT",
   "answer": "INTERNSHIP_CONTRACT"
 }, {
-  "question": "Mein Vertrag sieht einen Zeitraum vor, der genau 100 Präsenztagen entspricht. Was passiert, wenn ich mal krank werden sollte?",
+  "questions": ["Mein Vertrag sieht einen Zeitraum vor, der genau 100 Präsenztagen entspricht. Was passiert, wenn ich mal krank werden sollte?"],
   "intent": "INTERNSHIP_ILL",
   "answer": "INTERNSHIP_ILL"
 }, {
-  "question": "Gibt es vorgeschriebene Arbeitszeiten?",
+  "questions": ["Gibt es vorgeschriebene Arbeitszeiten?"],
   "intent": "INTERNSHIP_REQUIRED_LABOUR_TIME",
   "answer": "INTERNSHIP_REQUIRED_LABOUR_TIME"
 }, {
-  "question": "BAföG im Praxissemester?",
+  "questions": ["BAföG im Praxissemester?"],
   "intent": "INTERNSHIP_BAFÖG",
   "answer": "INTERNSHIP_BAFÖG"
 }, {
-  "question": "Kann man das Praxissemester verschieben?",
+  "questions": ["Kann man das Praxissemester verschieben?"],
   "intent": "INTERNSHIP_SHIFT",
   "answer": "INTERNSHIP_SHIFT"
 }, {
-  "question": "Schreibwerkstatt, wissenschaftliches Arbeiten (WIA), überfachliche Kompetenzen (UK)",
+  "questions": ["Schreibwerkstatt, wissenschaftliches Arbeiten (WIA), überfachliche Kompetenzen (UK)"],
   "intent": "INTERNSHIP_FUNNY_THINGS",
   "answer": "INTERNSHIP_FUNNY_THINGS"
 }, {
-  "question": "Gibt es spezifische Vorgaben für das Layout des Praxissemesterberichts?",
+  "questions": ["Gibt es spezifische Vorgaben für das Layout des Praxissemesterberichts?"],
   "intent": "INTERNSHIP_LAYOUT",
   "answer": "INTERNSHIP_LAYOUT"
 }, {
-  "question": "Wer hat die Rechte an Arbeitsergebnissen des Praxissemesters?",
+  "questions": ["Wer hat die Rechte an Arbeitsergebnissen des Praxissemesters?"],
   "intent": "INTERNSHIP_RIGHTS",
   "answer": "INTERNSHIP_RIGHTS"
 }, {
-  "question": "Müssen Arbeitszeiten erfasst werden?",
-  "intent": "INTERNSHIP_SEARCH",
-  "answer": "INTERNSHIP_SEARCH"
+  "questions": ["Müssen Arbeitszeiten erfasst werden?"],
+  "intent": "INTERNSHIP_NOTE_LABOUR_TIME",
+  "answer": "INTERNSHIP_NOTE_LABOUR_TIME"
 }, {
-  "question": "Wie finde ich eine Praktikumsstelle?",
-  "intent": "INTERNSHIP_SEARCH",
-  "answer": "INTERNSHIP_SEARCH"
-}, {
-  "question": "Wie finde ich eine Praktikumsstelle?",
-  "intent": "INTERNSHIP_WORK_TIME",
-  "answer": "INTERNSHIP_WORK_TIME"
-}, {
-  "question": "Darf ich im Praxissemester remote arbeiten ('Home Office')?",
+  "questions": ["Darf ich im Praxissemester remote arbeiten ('Home Office')?"],
   "intent": "INTERNSHIP_REMOTE",
   "answer": "INTERNSHIP_REMOTE"
 }, {
-  "question": "Wann ist das Praxissemester formal erbracht?",
+  "questions": ["Wann ist das Praxissemester formal erbracht?"],
   "intent": "INTERNSHIP_EMPTY",
   "answer": "INTERNSHIP_EMPTY"
 }]

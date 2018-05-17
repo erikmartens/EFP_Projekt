@@ -22,7 +22,7 @@ type alias ChatMessage =
     }
 
 
-type alias ElizaMessage =
+type alias ChatbotMessage =
     { statusCode : Int
     , userId: String
     , userChatMessage: String
@@ -46,9 +46,9 @@ init =
     )
 
 
-elizaMessageDecoder : Decoder ElizaMessage
-elizaMessageDecoder =
-    decode ElizaMessage
+chatbotMessageDecoder : Decoder ChatbotMessage
+chatbotMessageDecoder =
+    decode ChatbotMessage
         |> required "statusCode" int
         |> required "userId" string
         |> required "userChatMessage" string
@@ -74,7 +74,7 @@ onEnter msg =
 
 type Msg
     = UserMessage
-    | FetchElizaMessage (RemoteData.WebData ElizaMessage)
+    | FetchChatbotMessage (RemoteData.WebData ChatbotMessage)
     | InputAdd String
     | NoOp
     | CurrentDateForChatRequest Time.Time
@@ -90,7 +90,7 @@ update msg model =
             in
             ( { model | messages = (List.append model.messages [ { owner = "User", message = input } ]) }, Task.perform CurrentDateForChatRequest Time.now )
 
-        FetchElizaMessage response ->
+        FetchChatbotMessage response ->
             case response of
                 RemoteData.NotAsked ->
                     ( model, Cmd.none )
@@ -98,8 +98,8 @@ update msg model =
                 RemoteData.Loading ->
                     ( model, Cmd.none )
 
-                RemoteData.Success elizaMessage ->
-                    ( { model | messages = (List.append model.messages [ { owner = "Eliza", message = elizaMessage.botChatMessage } ]) }, Task.attempt (\_ -> NoOp) (Dom.Scroll.toBottom "eliza-chat-container") )
+                RemoteData.Success chatbotMessage ->
+                    ( { model | messages = (List.append model.messages [ { owner = "Chatbot", message = chatbotMessage.botChatMessage } ]) }, Task.attempt (\_ -> NoOp) (Dom.Scroll.toBottom "chatbot-chat-container") )
 
                 RemoteData.Failure error ->
                     ( model, Cmd.none )
@@ -114,7 +114,7 @@ update msg model =
             let
                 userMessage = model.input
             in
-                (  { model | input = "" }, fetchElizaMessage model.userId userMessage time )
+                (  { model | input = "" }, fetchChatbotMessage model.userId userMessage time )
 
 
 encodeUserChatMessageToJson : String -> String -> Time.Time -> Json.Encode.Value
@@ -125,14 +125,14 @@ encodeUserChatMessageToJson input userId time =
         , ("timeStamp", Json.Encode.float time)
         ]
 
-fetchElizaMessage : String -> String -> Time.Time -> Cmd Msg
-fetchElizaMessage userId userMessage timestamp =
+fetchChatbotMessage : String -> String -> Time.Time -> Cmd Msg
+fetchChatbotMessage userId userMessage timestamp =
     Http.post
         "/api/query"
         (Http.jsonBody (encodeUserChatMessageToJson userMessage userId timestamp))
-        elizaMessageDecoder
+        chatbotMessageDecoder
             |> RemoteData.sendRequest
-            |> Cmd.map FetchElizaMessage
+            |> Cmd.map FetchChatbotMessage
 
 
 
@@ -141,23 +141,23 @@ fetchElizaMessage userId userMessage timestamp =
 
 view : Model -> Html Msg
 view { messages, input } =
-    Html.div [ Html.Attributes.class "eliza-chat-outer-container" ]
-        [ Html.div [ Html.Attributes.class "eliza-chat-header-container" ]
-            [ Html.text "Send messages to Eliza" ]
-        , Html.div [ Html.Attributes.class "eliza-chat-container", Html.Attributes.id "eliza-chat-container" ]
+    Html.div [ Html.Attributes.class "chatbot-chat-outer-container" ]
+        [ Html.div [ Html.Attributes.class "chatbot-chat-header-container" ]
+            [ Html.text "Praxissemster F.A.Q. Chatbot" ]
+        , Html.div [ Html.Attributes.class "chatbot-chat-container", Html.Attributes.id "chatbot-chat-container" ]
             (messages
                 |> List.map viewChatMessage)
                 |> Html.map never
-        , Html.div [ Html.Attributes.class "eliza-chat-input-container" ]
-            [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "eliza-chat-input" ] [ ] ]
+        , Html.div [ Html.Attributes.class "chatbot-chat-input-container" ]
+            [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "chatbot-chat-input" ] [ ] ]
         ]
 
 
 
 viewChatMessage : ChatMessage -> Html Never
 viewChatMessage { message, owner } =
-    Html.div [ Html.Attributes.classList [("eliza-chat-message-container", True), ("user-message-container", owner == "User"), ("eliza-message-container", owner == "Eliza")] ]
-        [ Html.div [ Html.Attributes.classList [("chat-message", True), ("user-message", owner == "User"), ("eliza-message", owner == "Eliza")] ]
+    Html.div [ Html.Attributes.classList [("chatbot-chat-message-container", True), ("user-message-container", owner == "User"), ("chatbot-message-container", owner == "Chatbot")] ]
+        [ Html.div [ Html.Attributes.classList [("chat-message", True), ("user-message", owner == "User"), ("chatbot-message", owner == "Chatbot")] ]
             [ Html.text (message)
             ]
         ]

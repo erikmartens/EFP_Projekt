@@ -7,21 +7,15 @@
 
 (def stemmer (snowball/stemmer :german))
 
-;; stopWords : List String
+
 (def stop-words
   (json/read-str (slurp (clojure.java.io/resource"stopwords.json")) :key-fn keyword))
-;; Types
-;;
-;; type ChatbotQuestion =
-;;  { :question String
-;;    :intent String
-;;    :answer String
-;;  }
+
 
 (defn split-words
   [input]
-  (clojure.string/split (clojure.string/lower-case input) #"\W+"))
-; teilt ß
+  (clojure.string/split (clojure.string/lower-case input) #" "))
+
 
 (defn make-hash-of-words
   "Creates hash table [:word number-of-occurencies]"
@@ -61,28 +55,26 @@
     (cosine-similarity-of-hashes @hash1 @hash2)))
 
 
-;;    question process functions
 
-
-;; remove-punctuation : String -> String
-(defn remove-punctuation [sentence]
-  (clojure.string/replace sentence #"(,|\.|\?|!|-)" ""))
+(defn remove-punctuation
+  "Removes all punctuation from a String. Punctuations are: ,.?!-()\" "
+  [sentence]
+  (clojure.string/replace sentence #"(,|\.|\?|!|-|\(|\)|\")" ""))
 
 
 ;; stem-sentence : String -> String
-(defn stem-sentence [sentence]
+(defn stem-sentence
+  "Stems all words in the sentence."
+  [sentence]
   (->> (clojure.string/split sentence #" ")
        (map (fn [ word ] (stemmer word)))
        (clojure.string/join " ")))
 
 
-;; spelling-correction : String -> String
-(defn spelling-correction [ sentence ]
-  (sentence))
-
-
-(defn remove-stop-words [ question ]
-  (let [ question-words (seq (split-words question)) ]
+(defn remove-stop-words
+  "Removes all unnecessary words from a sentence."
+  [sentence]
+  (let [question-words (seq (split-words sentence))]
     (->> question-words
          (reduce
           (fn [ valid-question-words possible-stop-word ]
@@ -93,25 +85,20 @@
          (reverse)
          (clojure.string/join " "))))
 
+(defn prepare-sentence [ sentence ]
+  (->> sentence
+       (remove-punctuation)
+       (remove-stop-words)
+       (stem-sentence)))
 
-;; question : List ChatbotQuestion
 (def questions
-  (map (fn [ chatbot-question ] (merge chatbot-question { :question (stem-sentence(remove-stop-words(remove-punctuation (:question chatbot-question))))}))  (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword)))
-
-;(def questions
-;  (for [ { question :question intent :intent answer :answer } (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword) ]
-;    ( { :question (remove-punctuation question) :intent intent :answer answer })))
-
-(chatbot.utils/effect-print questions)
-
-
-;(defn get-answer [question]
-;  (first (sort-by :similarity >(map (fn [quest] (hash-map :question quest :similarity (cosine-similarity-of-strings quest question))) questions))))
+  (reduce (fn [ list item] (concat list item)) (map (fn [ { questions :questions intent :intent answer :answer } ]
+              (map (fn [ question ] (hash-map :question (prepare-sentence question) :intent intent :answer answer )) questions)) (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword))))
 
 ;; answer : String -> ChatbotQuestion
 (defn answer [ question ]
-  (let [ question-without-punctuation (stem-sentence(remove-stop-words(remove-punctuation question))) ]
+  (let [prepared-question (chatbot.utils/effect-print (prepare-sentence question))]
     (->> questions
-       (map (fn [ faq-question ] (merge faq-question { :similarity (cosine-similarity-of-strings (:question faq-question) question-without-punctuation)})))
+       (map (fn [ faq-question ] (merge faq-question {:similarity (cosine-similarity-of-strings (:question faq-question) prepared-question)})))
        (sort-by :similarity >)
        (first))))
