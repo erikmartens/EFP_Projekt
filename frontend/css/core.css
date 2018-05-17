@@ -9,7 +9,7 @@ html, div, p, body {
     margin: 0;
 }
 
-.eliza-chat-outer-container {
+.chatbot-chat-outer-container {
     display: flex;
     flex-direction: column;
     margin: 32px;
@@ -17,7 +17,7 @@ html, div, p, body {
     padding: 16px;
 }
 
-.eliza-chat-header-container {
+.chatbot-chat-header-container {
     display: flex;
     margin: 8px;
     align-content: center;
@@ -26,7 +26,7 @@ html, div, p, body {
     line-height: 1.5;
 }
 
-.eliza-chat-container {
+.chatbot-chat-container {
     display: flex;
     flex-direction: column;
     margin: 16px;
@@ -34,7 +34,7 @@ html, div, p, body {
     max-height: 450px;
 }
 
-.eliza-chat-message-container {
+.chatbot-chat-message-container {
     display: flex;
     flex-direction: row;
     margin: 8px 0px;
@@ -46,7 +46,7 @@ html, div, p, body {
     align-items: left;
 }
 
-.eliza-message-container {
+.chatbot-message-container {
     display: flex;
     justify-content: right;
     align-items: right;
@@ -56,16 +56,16 @@ html, div, p, body {
     background-color: aliceblue;
 }
 
-.eliza-message {
+.chatbot-message {
     background-color: aquamarine;
 }
 
-.eliza-chat-input-container {
+.chatbot-chat-input-container {
     display: flex;
     margin: 16px;
 }
 
-.eliza-chat-input {
+.chatbot-chat-input {
     display: flex;
     line-height: 1.5;
     padding: 8px;
