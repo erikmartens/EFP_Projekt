@@ -6,6 +6,6 @@ set -o pipefail
 
 cd reverse-proxy
 
-npm install -g elm
+# npm install -g elm
 
 docker build -t efp-reverse-proxy .
