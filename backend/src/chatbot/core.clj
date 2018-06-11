@@ -23,7 +23,8 @@
                                                :botChatMessage answer
                                                :intentName intent}))))
                  ) (POST "/api/lti" {params :params headers :headers}
-                         (ring.util.response/redirect "efp-frontend:80")))
+                         (println params)
+                         (ring.util.response/redirect (str "efp-frontend:80"))))
 
 
 (def app
