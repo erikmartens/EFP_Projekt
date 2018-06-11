@@ -22,7 +22,8 @@
                                                :statusCode 200
                                                :botChatMessage answer
                                                :intentName intent}))))
-                 ))
+                 ) (POST "/api/lti" {params :params headers :headers}
+                         (ring.util.response/redirect "efp-frontend:80")))
 
 
 (def app
