@@ -2,7 +2,6 @@
 
 # fail after an error occurs
 set -e
-set -o pipefail
 
 cd ../backend
 
