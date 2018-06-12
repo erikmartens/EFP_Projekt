@@ -12,6 +12,8 @@ import RemoteData
 import Task
 import Dom.Scroll
 import Time
+import Regex
+import Array
 
 -- MODEL
 
@@ -158,9 +160,73 @@ viewChatMessage : ChatMessage -> Html Never
 viewChatMessage { message, owner } =
     Html.div [ Html.Attributes.classList [("chatbot-chat-message-container", True), ("user-message-container", owner == "User"), ("chatbot-message-container", owner == "Chatbot")] ]
         [ Html.div [ Html.Attributes.classList [("chat-message", True), ("user-message", owner == "User"), ("chatbot-message", owner == "Chatbot")] ]
-            [ Html.text (message)
+            [ parseChatMessage message
             ]
+        , Html.div [ Html.Attributes.class "fill-element" ] []
         ]
+
+
+parseChatMessage : String -> Html.Html Never
+parseChatMessage answer =
+  let
+    t_ = answer
+      |> String.split "\n"
+      |> List.map (\text_ -> parseLinks text_)
+      |> List.intersperse (Html.br [] [])
+  in
+   Html.div [] t_
+
+
+parseLinks : String -> Html.Html Never
+parseLinks answer =
+  let
+    textElements = answer
+      |> Regex.replace Regex.All (Regex.regex "\\[.*?\\]\\(.*?\\)") (\_ -> "_||_")
+      |> String.split "_||_"
+      |> List.map(\text_ -> Html.text text_)
+
+    linkElements = answer
+      |> Regex.find Regex.All (Regex.regex "\\[(.*?)\\]\\((.*?)\\)")
+      |> List.map parseLink
+      |> Array.fromList
+
+    t_ = textElements
+    --  |> List.append linkElements
+
+    linkTextCombined = textElements
+        |> List.indexedMap (,)
+        |> List.foldl (\(index, textElement) combinedElements -> (Maybe.withDefault (Html.br [] []) (Array.get index linkElements)) :: textElement :: combinedElements) []
+        |> List.reverse
+  in
+    Html.span [] linkTextCombined
+
+
+parseLink : Regex.Match -> Html.Html Never
+parseLink { match, submatches } =
+  let
+    title =
+      submatches
+        |> List.head
+        |> join
+        |> Maybe.withDefault ""
+    url =
+      submatches
+        |> List.reverse
+        |> List.head
+        |> join
+        |> Maybe.withDefault ""
+  in
+    Html.a [ Html.Attributes.href url ] [ Html.text title ]
+
+
+join : Maybe (Maybe a) -> Maybe a
+join maybe =
+    case maybe of
+        Just maybe ->
+            maybe
+
+        Nothing ->
+            Nothing
 
 
 main : Program Never Model Msg

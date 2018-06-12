@@ -24,7 +24,7 @@
                                                :intentName intent}))))
                  ) (POST "/api/lti" {params :params headers :headers}
                          (println params)
-                         (ring.util.response/redirect (str "efp-frontend:80"))))
+                         (ring.util.response/redirect (str "http://efp06.informatik.hs-mannheim.de:80"))))
 
 
 (def app
