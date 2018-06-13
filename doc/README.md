@@ -115,5 +115,34 @@ Elm wird durch einen Compiler zu JavaScript transpiliert.
     Alle ``DOM``-Zugriffe werden von `Elm` erledigt.
     Das Layout wird mittels des ``Html``-Moduls erzeugt.
     Siehe die ```view```-Funktion.
+    
+    Beispiel:
+    ```elm
+       view : Model -> Html Msg
+       view { messages, input } =
+           Html.div [ Html.Attributes.class "chatbot-chat-outer-container" ]
+               [ Html.div [ Html.Attributes.class "chatbot-chat-header-container" ]
+                   [ Html.text "Praxissemster F.A.Q. Chatbot" ]
+               , Html.div [ Html.Attributes.class "chatbot-chat-container", Html.Attributes.id "chatbot-chat-container" ]
+                   (messages
+                       |> List.map viewChatMessage
+                   )
+                   |> Html.map never
+               , Html.div [ Html.Attributes.class "chatbot-chat-input-container" ]
+                   [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "chatbot-chat-input" ] [] ]
+               ]
+    ```
 
 3. filter, map, reduce
+
+    Die Operationen sind in Elm von jedem Datentyp/Module selbst implementiert.
+    Die reduce heißt in Elm foldl.
+    
+    Beispiel:
+    ```elm
+       linkTextCombined =
+           textElements
+               |> List.indexedMap (,)
+               |> List.foldl (\( index, textElement ) combinedElements -> (Maybe.withDefault (Html.br [] []) (Array.get index linkElements)) :: textElement :: combinedElements) []
+               |> List.reverse
+    ```
