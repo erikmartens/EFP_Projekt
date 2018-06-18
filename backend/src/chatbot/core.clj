@@ -7,7 +7,8 @@
             [clojure.data.json :as json]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.json :refer [wrap-json-body]]
-            [chatbot.recognition]))
+            [chatbot.recognition]
+            [chatbot.mongo]))
 
 
 (defroutes app-routes
@@ -15,6 +16,7 @@
                  (println body)
                  (let [{timeStamp :timeStamp userId :userId userChatMessage :userChatMessage } body]
                    (let [ { quesiton :question intent :intent answer :answer} (chatbot.recognition/answer userChatMessage) ]
+                     (chatbot.mongo/save-request userId timeStamp intent)
                      (response (json/write-str {
                                                :timeStamp timeStamp
                                                :userId userId

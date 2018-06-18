@@ -16,3 +16,4 @@ pom.xml.asc
 /frontend/.idea/
 /backend/.idea/
 /frontend/elm-stuff/
+/devops/mongo/*
