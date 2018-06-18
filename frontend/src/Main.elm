@@ -180,6 +180,7 @@ parseChatMessage answer =
         t_ =
             answer
                 |> String.split "\n"
+                |> List.filter (\lineContent -> String.length lineContent > 0)
                 |> List.map (\text_ -> parseLinks text_)
                 |> List.intersperse (Html.br [] [])
     in
@@ -210,7 +211,7 @@ parseLinks answer =
                 |> List.foldl (\( index, textElement ) combinedElements -> (Maybe.withDefault (Html.br [] []) (Array.get index linkElements)) :: textElement :: combinedElements) []
                 |> List.reverse
     in
-        Html.span [] linkTextCombined
+        Html.p [] linkTextCombined
 
 
 {-
