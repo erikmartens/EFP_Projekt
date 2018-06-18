@@ -64,7 +64,7 @@ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices 
 ## Eingesetzte Pattern
 
 1. Chain of Operations
-2. map, filter, reduce
+2. Map, Filter, Reduce
 3. ...
 
 ## Intenterkennung

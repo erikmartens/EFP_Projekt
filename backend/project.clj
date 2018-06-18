@@ -10,7 +10,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [ring-cors "0.1.12"]
                  [ring/ring-json "0.4.0"]
-                 [snowball-stemmer "0.1.0"]]
+                 [snowball-stemmer "0.1.0"]
+                 [morse "0.4.0"]]
   :main ^:skip-aot chatbot.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
