@@ -17,5 +17,15 @@ services:
     image: efp-backend
     networks:
       - efp
+  efp-mongo:
+    image: mongo
+    # this volume will save the data on the host disc
+    # this should NOT be saved inside this git repo
+    volumes:
+      - ./mongo:/data/db
+    networks:
+      - efp
+    ports:
+      - "27018:27017"
 networks:
   efp:

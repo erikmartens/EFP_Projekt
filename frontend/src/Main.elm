@@ -1,10 +1,13 @@
 module Main exposing (..)
 
+import Navigation
+import Route
+
 import Html exposing (Html)
 import Html.Events
 import Html.Attributes
-import Json.Decode exposing (Decoder, string, int, float)
-import Json.Decode.Pipeline exposing (decode, required)
+import Json.Decode exposing (Decoder, string, int, float, maybe)
+import Json.Decode.Pipeline exposing (decode, required, optional)
 import Json.Encode
 import Http
 import RemoteData
@@ -13,7 +16,6 @@ import Dom.Scroll
 import Time
 import Regex
 import Array
-
 
 -- MODEL
 
@@ -26,7 +28,7 @@ type alias ChatMessage =
 
 type alias ChatbotMessage =
     { statusCode : Int
-    , userId : String
+    , userId : Maybe String
     , userChatMessage : String
     , botChatMessage : String
     , intentName : String
@@ -37,22 +39,32 @@ type alias ChatbotMessage =
 type alias Model =
     { messages : List ChatMessage
     , input : String
-    , userId : String
+    , userId : Maybe String
+    , route: Route.Route
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { messages = [], input = "", userId = "abc123" }
-    , Cmd.none
-    )
+init : Navigation.Location -> ( Model, Cmd Msg )
+init location =
+    let
+        route =
+            location
+                |> Route.fromLocation
+                |> Maybe.withDefault (Route.Home Nothing)
+
+        (Route.Home userId) =
+            route
+    in
+        ( { messages = [], input = "", userId = userId, route = route }
+        , Cmd.none
+        )
 
 
 chatbotMessageDecoder : Decoder ChatbotMessage
 chatbotMessageDecoder =
     decode ChatbotMessage
         |> required "statusCode" int
-        |> required "userId" string
+        |> optional "userId" (maybe string) Nothing
         |> required "userChatMessage" string
         |> required "botChatMessage" string
         |> required "intentName" string
@@ -81,6 +93,7 @@ type Msg
     | InputAdd String
     | NoOp
     | CurrentDateForChatRequest Time.Time
+    | UrlChange (Maybe Route.Route)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -120,17 +133,38 @@ update msg model =
             in
                 ( { model | input = "" }, fetchChatbotMessage model.userId userMessage time )
 
+        UrlChange route ->
+                    let
+                        updatedRoute =
+                            case route of
+                                Nothing ->
+                                    Route.Home Nothing
 
-encodeUserChatMessageToJson : String -> String -> Time.Time -> Json.Encode.Value
+                                Just route ->
+                                    route
+                    in
+                        ( { model | route = updatedRoute }, Cmd.none )
+
+
+encodeUserChatMessageToJson : String -> Maybe String -> Time.Time -> Json.Encode.Value
 encodeUserChatMessageToJson input userId time =
-    Json.Encode.object
-        [ ( "userId", Json.Encode.string userId )
-        , ( "userChatMessage", Json.Encode.string input )
-        , ( "timeStamp", Json.Encode.float time )
-        ]
+    let
+        userIdEncoder =
+            case userId of
+                Nothing ->
+                    Json.Encode.null
+
+                Just userId ->
+                    Json.Encode.string userId
+    in
+        Json.Encode.object
+            [ ( "userId", userIdEncoder )
+            , ( "userChatMessage", Json.Encode.string input )
+            , ( "timeStamp", Json.Encode.float time )
+            ]
 
 
-fetchChatbotMessage : String -> String -> Time.Time -> Cmd Msg
+fetchChatbotMessage : Maybe String -> String -> Time.Time -> Cmd Msg
 fetchChatbotMessage userId userMessage timestamp =
     Http.post
         "/api/query"
@@ -251,7 +285,7 @@ join maybe =
 
 main : Program Never Model Msg
 main =
-    Html.program
+    Navigation.program (Route.fromLocation >> UrlChange)
         { init = init
         , update = update
         , subscriptions = \_ -> Sub.none

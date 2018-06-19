@@ -9,6 +9,8 @@ COPY efp-frontend.js html/
 COPY index.html html/
 COPY init.sh .
 
+COPY conf.d/default.conf /etc/nginx/conf.d
+
 EXPOSE 80
 
 ENTRYPOINT ["./init.sh"]
