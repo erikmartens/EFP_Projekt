@@ -16,7 +16,8 @@
                  (println body)
                  (let [{timeStamp :timeStamp userId :userId userChatMessage :userChatMessage } body]
                    (let [ { quesiton :question intent :intent answer :answer} (chatbot.recognition/answer userChatMessage) ]
-                     (chatbot.mongo/save-request userId timeStamp intent)
+                     (if (chatbot.utils/not-nil? userId)
+                       (chatbot.mongo/save-request userId timeStamp intent))
                      (response (json/write-str {
                                                :timeStamp timeStamp
                                                :userId userId
@@ -26,7 +27,9 @@
                                                :intentName intent}))))
                  ) (POST "/api/lti" {params :params headers :headers}
                          (println params)
-                         (ring.util.response/redirect (str "http://efp06.informatik.hs-mannheim.de:8080"))))
+                         (ring.util.response/redirect (str
+                                                       "http://efp06.informatik.hs-mannheim.de:8080"
+                                                       "?userId=" (get params "lis_person_sourcedid")))))
 
 
 (def app

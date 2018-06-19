@@ -10,3 +10,5 @@
   "true if coll contains elm"
   [coll elm]
   (some #(= elm %) coll))
+
+(def not-nil? (complement nil?))

@@ -19,7 +19,6 @@ services:
       - efp
   efp-mongo:
     image: mongo
-    # all the data will be lost after we restart the container
     # this volume will save the data on the host disc
     # this should NOT be saved inside this git repo
     volumes:
