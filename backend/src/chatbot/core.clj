@@ -28,7 +28,7 @@
                  ) (POST "/api/lti" {params :params headers :headers}
                          (println params)
                          (ring.util.response/redirect (str
-                                                       "http://efp06.informatik.hs-mannheim.de:8080"
+                                                       "http://efp06.informatik.hs-mannheim.de:8080/chat"
                                                        "?userId=" (get params "lis_person_sourcedid")))))
 
 
