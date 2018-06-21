@@ -87,7 +87,7 @@ __Dokumentation__
 
 - __Bot User Name:__ HSMAPraxisSemesterBot
 - __URL:__ https://t.me/HSMAPraxisSemesterBot
-- __Token:__ 619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU
+- __Token:__ `619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU`
 
 
 
