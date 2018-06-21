@@ -26,10 +26,11 @@
                                                :botChatMessage answer
                                                :intentName intent}))))
                  ) (POST "/api/lti" {params :params headers :headers}
-                         (println params)
-                         (ring.util.response/redirect (str
-                                                       "http://efp-chatbot.westeurope.cloudapp.azure.com/chat"
-                                                       "?userId=" (get params "lis_person_sourcedid")))))
+                         (let [ { lis_person_sourcedid :lis_person_sourcedid lis_person_contact_email_primary :lis_person_contact_email_primary}  (str params) ]
+                           (ring.util.response/redirect (str
+                                                         "http://efp-chatbot.westeurope.cloudapp.azure.com/chat"
+                                                         "?userId=" lis_person_sourcedid)))
+                         ))
 
 
 (def app

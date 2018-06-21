@@ -5,6 +5,6 @@ set -e
 
 cd reverse-proxy
 
-npm install -g elm
+sudo npm install -g elm
 
 docker build -t efp-reverse-proxy .
