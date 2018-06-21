@@ -5,6 +5,8 @@
 
 (def token "619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU")
 
+(t/set-webhook token "http://efp-chatbot.westeurope.cloudapp.azure.com/api/telegram_handler")
+
 ; This will define bot-api function, which later could be
 ; used to start your bot
 (h/defhandler botapi
