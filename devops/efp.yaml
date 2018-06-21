@@ -9,7 +9,8 @@ services:
     networks:
       - efp
     ports:
-      - '8080:443'
+      - '80:80'
+      - '443:443'
     depends_on:
       - efp-backend
       - efp-frontend
