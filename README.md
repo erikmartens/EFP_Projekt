@@ -85,9 +85,9 @@ __Dokumentation__
 
 > Beschreibung der Telegram Bot API: https://core.telegram.org/bots/api
 
-- Bot User Name: HSMAPraxisSemesterBot
-- URL: https://t.me/HSMAPraxisSemesterBot
-- Token: 619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU
+- __Bot User Name:__ HSMAPraxisSemesterBot
+- __URL:__ https://t.me/HSMAPraxisSemesterBot
+- __Token:__ 619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU
 
 
 
