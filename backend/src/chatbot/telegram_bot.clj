@@ -7,7 +7,7 @@
 
 ; This will define bot-api function, which later could be
 ; used to start your bot
-(h/defhandler bot-api
+(h/defhandler botapi
   ; Each bot has to handle /start and /help commands.
   ; This could be done in form of a function:
   (h/command-fn "start" (fn [{{id :id :as chat} :chat}]
