@@ -27,7 +27,7 @@
                                    :intentName intent}))))) (POST "/api/lti" {params :params headers :headers}
                                                               (let [{lis_person_sourcedid :lis_person_sourcedid lis_person_contact_email_primary :lis_person_contact_email_primary}  (read-string (str params))]
                                                                 (ring.util.response/redirect (str
-                                                                                              "http://efp-chatbot.westeurope.cloudapp.azure.com/chat"
+                                                                                              "https://efp-chatbot.westeurope.cloudapp.azure.com/chat"
                                                                                               "?userId=" lis_person_sourcedid))))
   (POST "/api/telegram_handler" {{updates :result} :body} (map chatbot.telegram-bot/botapi updates)))
 
