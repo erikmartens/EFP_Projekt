@@ -29,8 +29,7 @@
                                                                 (ring.util.response/redirect (str
                                                                                               "https://efp-chatbot.westeurope.cloudapp.azure.com/chat"
                                                                                               "?userId=" lis_person_sourcedid))))
-  (POST "/api/telegram_handler" {{updates :result} :body} (map chatbot.telegram-bot/botapi updates)))
-
+  (POST "/api/telegram_handler" {{updates :message} :body} (chatbot.telegram-bot/botapi updates)))
 
 (def app
   (-> (site app-routes)
