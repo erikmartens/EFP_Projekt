@@ -5,6 +5,6 @@
 
 (def token "619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU")
 
-(defn t-handler [{{id :id} :chat text :text}]
+(defn botapi [{{id :id} :chat text :text}]
   (let [{question :question intent :intent answer :answer} (chatbot.recognition/answer text)]
     (api/send-text token id answer)))
