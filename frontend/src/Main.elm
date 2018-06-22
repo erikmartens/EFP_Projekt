@@ -189,7 +189,10 @@ view { messages, input } =
             )
             |> Html.map never
         , Html.div [ Html.Attributes.class "chatbot-chat-input-container" ]
-            [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "chatbot-chat-input" ] [] ]
+            [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "chatbot-chat-input" ] []
+            , Html.div [ Html.Attributes.class "chatbot-chat-input-send-container", Html.Events.onClick UserMessage ]
+                [ Html.text "Send" ]
+                ]
         ]
 
 
