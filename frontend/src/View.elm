@@ -24,7 +24,7 @@ view : Model -> Html Msg
 view { messages, input } =
     Html.div [ Html.Attributes.class "chatbot-chat-outer-container" ]
         [ Html.div [ Html.Attributes.class "chatbot-chat-header-container" ]
-            [ Html.text "Praxissemster F.A.Q. Chatbot" ]
+            [ Html.text "Praxissemester F.A.Q. Chatbot" ]
         , Html.div [ Html.Attributes.class "chatbot-chat-container", Html.Attributes.id "chatbot-chat-container" ]
             (messages
                 |> List.map viewChatMessage
@@ -124,4 +124,4 @@ parseLink { match, submatches } =
                 |> Util.join
                 |> Maybe.withDefault ""
     in
-        Html.a [ Html.Attributes.href url ] [ Html.text title ]
+        Html.a [ Html.Attributes.href url, Html.Attributes.target "_blank" ] [ Html.text title ]
