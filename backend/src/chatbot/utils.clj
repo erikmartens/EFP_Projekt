@@ -12,3 +12,7 @@
   (some #(= elm %) coll))
 
 (def not-nil? (complement nil?))
+
+(defn get-thread-last [ _key ]
+  (fn [ _map ]
+    (get _map (keyword _key))))

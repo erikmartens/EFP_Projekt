@@ -23,9 +23,17 @@ init location =
 
         (Route.Home userId) =
             route
+
+        initialCmd =
+            case userId of
+                Nothing ->
+                    Cmd.none
+
+                Just userId ->
+                    Update.fetchChatbotHistory userId
     in
         ( { messages = [], input = "", userId = userId, route = route }
-        , Cmd.none
+        , initialCmd
         )
 
 
