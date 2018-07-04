@@ -1,4 +1,4 @@
-module Update exposing (Msg(..), onEnter, update)
+module Update exposing (Msg(..), onEnter, update, fetchChatbotHistory)
 
 -- Core Modules
 
@@ -21,11 +21,13 @@ import Dom.Scroll
 import Model exposing (Model)
 import Route
 import Data.ChatbotMessage
+import Data.ChatbotHistory
 
 
 type Msg
     = UserMessage
     | FetchChatbotMessage (RemoteData.WebData Data.ChatbotMessage.ChatbotMessage)
+    | FetchChatbotHistory (RemoteData.WebData (List Data.ChatbotHistory.ChatbotHistoryEntry))
     | InputAdd String
     | NoOp
     | CurrentDateForChatRequest Time.Time
@@ -99,6 +101,20 @@ update msg model =
             in
                 ( { model | route = updatedRoute }, Cmd.none )
 
+        FetchChatbotHistory response ->
+                    case response of
+                        RemoteData.NotAsked ->
+                            ( model, Cmd.none )
+
+                        RemoteData.Loading ->
+                            ( model, Cmd.none )
+
+                        RemoteData.Success history ->
+                            ( { model | messages = Data.ChatbotHistory.toChatMessage history }, Task.attempt (\_ -> NoOp) (Dom.Scroll.toBottom "chatbot-chat-container") )
+
+                        RemoteData.Failure error ->
+                            ( model, Cmd.none )
+
 
 
 {-
@@ -115,3 +131,12 @@ fetchChatbotMessage userId userMessage timestamp =
         Data.ChatbotMessage.decode
         |> RemoteData.sendRequest
         |> Cmd.map FetchChatbotMessage
+
+
+fetchChatbotHistory : String -> Cmd Msg
+fetchChatbotHistory userId =
+    Http.get
+        ("/api/chat?userId=" ++ userId)
+        Data.ChatbotHistory.decode
+        |> RemoteData.sendRequest
+        |> Cmd.map FetchChatbotHistory

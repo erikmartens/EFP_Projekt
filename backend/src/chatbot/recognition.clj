@@ -95,6 +95,8 @@
   (reduce (fn [ list item] (concat list item)) (map (fn [ { questions :questions intent :intent answer :answer } ]
               (map (fn [ question ] (hash-map :question (prepare-sentence question) :intent intent :answer answer )) questions)) (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword))))
 
+(def get-answer (chatbot.utils/get-thread-last "answer"))
+
 ;; answer : String -> ChatbotQuestion
 (defn answer [ question ]
   (let [prepared-question (chatbot.utils/effect-print (prepare-sentence question))]
@@ -102,3 +104,9 @@
        (map (fn [ faq-question ] (merge faq-question {:similarity (cosine-similarity-of-strings (:question faq-question) prepared-question)})))
        (sort-by :similarity >)
        (first))))
+
+(defn answer-from-intent [ intent ]
+  (->> questions
+       (filter (fn [ question ] (= (:intent question) intent)))
+       (first)
+       (get-answer)))
