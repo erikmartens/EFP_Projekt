@@ -17,7 +17,7 @@ import Data.ChatMessage
 
 
 {-
-   Represents a backend chat bot answer.
+   Represents a chat bot history entry.
 -}
 
 

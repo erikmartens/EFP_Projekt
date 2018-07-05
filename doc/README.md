@@ -2,10 +2,11 @@
 
 # Devops
 
-Das System besteht aus drei ``Docker``-Container, die mittels `docker-compose` orchestiert werden.
+Das System besteht aus vier ``docker``-Container, die mittels `docker-compose` orchestiert werden.
 Das System besteht aus einem Backendserver, der die Grundlagen der Intenterkennung liefert.
 Daneben existiert ein Frontend, um das System benutzbar zu machen.
-Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet.
+Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet. 
+Die Nutzerdaten werden in ``mongoDB`` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
 
 ## Reverse Proxy
 
@@ -29,7 +30,7 @@ Das Backend nutzt einen ``jetty`` Server für Clojure und den Port 5000.
 ### REST
 
 Das REST Interface ist von Dialogflow inspiriert.
-Als einzige Resource steht ``/query`` zur Verfügung.
+Als Resource steht ``/query`` zur Verfügung.
 
 #### Request
 - Resource: Query
@@ -53,7 +54,22 @@ Als einzige Resource steht ``/query`` zur Verfügung.
 		timeStamp: Number 
 	}`
 	
-Das REST Interface ist im ```backend```-Ordner (`rest.yaml`) mittels ``swagger`` annotiert.
+Als weitere Schnittstelle steht ``chat`` bereit.
+
+#### Request
+- Query: userId
+
+#### Response
+- Body:
+    ```json
+    {
+      "userId" : "String", 
+      "userChatMessage" : "String",
+      "answer" : "String",
+      "intentName" : "String",
+      "timeStamp" : "Float"
+    }
+    ```
 
 ## Mögliche Verbesserungen
 
@@ -65,7 +81,7 @@ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices 
 
 1. Chain of Operations
 2. Map, Filter, Reduce
-3. ...
+3. Function Builder
 
 ## Intenterkennung
 

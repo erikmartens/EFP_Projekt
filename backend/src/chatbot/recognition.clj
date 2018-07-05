@@ -85,27 +85,35 @@
          (reverse)
          (clojure.string/join " "))))
 
-(defn prepare-sentence [ sentence ]
+(defn prepare-sentence
+  "Prepares a sentence to compute the cosine similarity with it."
+  [ sentence ]
   (->> sentence
        (remove-punctuation)
        (remove-stop-words)
        (stem-sentence)))
 
 (def questions
+  "The faq questions are stored in a json file."
   (reduce (fn [ list item] (concat list item)) (map (fn [ { questions :questions intent :intent answer :answer } ]
               (map (fn [ question ] (hash-map :question (prepare-sentence question) :intent intent :answer answer )) questions)) (json/read-str (slurp (clojure.java.io/resource"questions.json")) :key-fn keyword))))
 
 (def get-answer (chatbot.utils/get-thread-last "answer"))
 
 ;; answer : String -> ChatbotQuestion
-(defn answer [ question ]
+(defn answer
+  "Compares the question with the provided faq questions and chooses the best fitting faq answer."
+  [ question ]
   (let [prepared-question (chatbot.utils/effect-print (prepare-sentence question))]
     (->> questions
        (map (fn [ faq-question ] (merge faq-question {:similarity (cosine-similarity-of-strings (:question faq-question) prepared-question)})))
        (sort-by :similarity >)
        (first))))
 
-(defn answer-from-intent [ intent ]
+; answer-from-intent : String -> String
+(defn answer-from-intent
+  "Converts an existing intent into the corresponding faq answer."
+  [ intent ]
   (->> questions
        (filter (fn [ question ] (= (:intent question) intent)))
        (first)

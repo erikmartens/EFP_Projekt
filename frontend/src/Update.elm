@@ -133,6 +133,9 @@ fetchChatbotMessage userId userMessage timestamp =
         |> Cmd.map FetchChatbotMessage
 
 
+{-
+    Fetches the chat bot history for a logged in user.
+-}
 fetchChatbotHistory : String -> Cmd Msg
 fetchChatbotHistory userId =
     Http.get
