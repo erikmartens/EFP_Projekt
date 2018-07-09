@@ -241,12 +241,7 @@ Als weitere Schnittstelle steht `chat` bereit.
 
 ## Intenterkennung
 
-__Input:__ Chat-Nachricht des Benutzers als String
-__Output:__ Chat-Nachricht des Bots als String
-
-Alle Praxissemsterfragen sind in einer JSON-Datei abgelegt.
-Jeder Frage ist ein eindeutiger Intent zugeordnet.
-Für jede Fragen können mehrere Varianten angegeben werden.
+Alle Praxissemsterfragen sind in einer JSON-Datei abgelegt. Jeder Frage ist ein eindeutiger Intent zugeordnet. Für jede Fragen können mehrere Varianten angegeben werden.
 
 Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
@@ -260,11 +255,21 @@ Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie
 
 5. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
 
-__Rechtschreibüberprüfung:__ 
+__Input__ 
+
+Chat-Nachricht des Benutzers als String
+
+__Output__ 
+
+Chat-Nachricht des Bots als String
+
+__Rechtschreibüberprüfung__ 
+
 - [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector)
 - [Snowball Stemmer](https://clojars.org/snowball-stemmer)
 
-__Cosine Similariy:__
+__Cosine Similariy__
+
 - [cosine-similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)
 
 __Anmerkung:__
