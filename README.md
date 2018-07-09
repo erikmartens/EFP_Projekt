@@ -119,18 +119,18 @@ Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 
 ### Backend
 
-#### Eingesetzte Pattern
+__Eingesetzte Pattern__
 
 1. Chain of Operations
-2. Map, Filter, Reduce
-3. Function Builder
+2. Function Builder
+3. Map, Filter, Reduce
 
 ### Frontend
 
 Das Frontend ist in Elm, einer an Haskell orientierten funktionalen Programmiersprache implementiert.
 Elm wird durch einen Compiler zu JavaScript transpiliert.
 
-#### Eingesetzte Pattern
+__Eingesetzte Pattern__
 
 1. Chain of Operations
 
@@ -171,7 +171,7 @@ Elm wird durch einen Compiler zu JavaScript transpiliert.
                ]
     ```
 
-3. filter, map, reduce
+3. Map, Filter & Reduce
 
     Die Operationen sind in Elm von jedem Datentyp/Module selbst implementiert.
     Die reduce heißt in Elm foldl.
@@ -189,7 +189,7 @@ Elm wird durch einen Compiler zu JavaScript transpiliert.
 
 Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `/query` zur Verfügung.
 
-#### Request
+__Request__
 
 - Resource: Query
 - Body: 
@@ -201,7 +201,7 @@ Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `/query` zu
 	}
 	```
 
-#### Response
+__Response__
 
 - Resource: Query
 - StatusCode: HTTP-Status-Code
@@ -219,11 +219,11 @@ Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `/query` zu
 	
 Als weitere Schnittstelle steht `/chat` bereit.
 
-#### Request
+__Request__
 
 - Query: userId
 
-#### Response
+__Response__
 
 - Body:
     ```
@@ -273,7 +273,7 @@ Es sollte ausreichen wenn wir mehrere Versionen der Frage und eine Rechtschreib�
 
 ## Telegram Bot
 
-### Beschreibung
+__Beschreibung__
 
 Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos, über den der Bot erstellt wurde. Nur dieses Konto kann Änderungen am Bot vornehmen, mithilfe eines Chats mit dem Telegram-Bot `Botfather`. Dieser Ablauf kann nicht verändert werden. Es kann jedoch einfach ein neuer Bot erstellt werden und der Token im Quellcode verändert werden, damit dieser funktioniert. Mehr Informationen sind in der [Beschreibung der Telegram Bot API](https://core.telegram.org/bots/api) verfügbar.
 
@@ -281,6 +281,6 @@ Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos
 - __URL:__ https://t.me/HSMAPraxisSemesterBot
 - __Token:__ `619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU`
 
-### Chat Nachricht zum Bot schicken
+__Chat Nachricht zum Bot schicken__
 
 ---
