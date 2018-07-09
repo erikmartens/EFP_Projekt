@@ -187,8 +187,7 @@ Elm wird durch einen Compiler zu JavaScript transpiliert.
 
 ### REST Schnittstelle
 
-Das REST Interface ist von Dialogflow inspiriert.
-Als Resource steht ``/query`` zur Verfügung.
+Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `/query` zur Verfügung.
 
 #### Request
 
@@ -218,7 +217,7 @@ Als Resource steht ``/query`` zur Verfügung.
 	}
 	```
 	
-Als weitere Schnittstelle steht `chat` bereit.
+Als weitere Schnittstelle steht `/chat` bereit.
 
 #### Request
 
@@ -245,16 +244,6 @@ Alle Praxissemsterfragen sind in einer JSON-Datei abgelegt. Jeder Frage ist ein 
 
 Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
-1. Rechtschreibüberprüfung (optional)
-
-2. Alle Satz- und Sonderzeichen werden entfernt. (`remove-punctuation`)
-
-3. Alle unnötigen Wörter (`stop words`) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe `backend/resources/stop-words.json`).
-
-4. Alle Wörter werden auf ihren Grundtyp abgebildet (``stem-sentence``). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
-
-5. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
-
 __Input__ 
 
 Chat-Nachricht des Benutzers als String
@@ -263,18 +252,21 @@ __Output__
 
 Chat-Nachricht des Bots als String
 
-__Rechtschreibüberprüfung__ 
+__Ablauf__
 
-- [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector)
-- [Snowball Stemmer](https://clojars.org/snowball-stemmer)
+1. Rechtschreibüberprüfung (optional) mit dem [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector)
 
-__Cosine Similariy__
+2. Alle Satz- und Sonderzeichen werden entfernt (`remove-punctuation`)
 
-- [cosine-similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)
+3. Alle unnötigen Wörter (`stop words`) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe `backend/resources/stop-words.json`).
 
-__Anmerkung:__
+4. Alle Wörter werden auf ihren Grundtyp abgebildet (`stem-sentence`) mit dem [Snowball Stemmer](https://clojars.org/snowball-stemmer). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
 
-Mit der cosine-similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut.
+5. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
+
+__Anmerkung__
+
+Mit der Cosine-Similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut.
 Es sollte ausreichen wenn wir mehrere Versionen der Frage und eine Rechtschreibüberprüfung haben.
 
 ---
