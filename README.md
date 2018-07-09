@@ -5,7 +5,7 @@
 ## Anforderungen
 
 __Allgemein (Projekt)__
-- [ ] muss bei der Abschlusspräsentation am 25.06. von mindestens einem Gruppenmitglied demonstriert werden.
+- [x] muss bei der Abschlusspräsentation am 25.06. von mindestens einem Gruppenmitglied demonstriert werden.
 
 __Nichtfunktional__
 - [x] Muss in Clojure programmiert sein.
@@ -40,7 +40,7 @@ Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgesch
 Die Nutzerdaten werden in ``mongoDB`` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
 
 
-#### Reverse Proxy
+### Reverse Proxy
 
 Der Proxy nimmt alle von außen an docker geleitete Requests an und leitet diese entsprechend des Pfades an die entsprechenden Mircoservices weiter.
 Durch den Einsatz des Proxys muss nur ein Port für das Projekt geöffnet sein.
@@ -60,9 +60,11 @@ Alle Frontend Requests werden über ```/api/...``` an das Backend gesendet.
 
 Das Backend nutzt einen ``jetty`` Server für Clojure und den Port 5000.
 
+```
 ### Mögliche Verbesserungen
 
 Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
+```
 
 ---
 
