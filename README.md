@@ -5,15 +5,18 @@
 ## Anforderungen
 
 __Allgemein (Projekt)__
+
 - [x] muss bei der Abschlusspräsentation am 25.06. von mindestens einem Gruppenmitglied demonstriert werden.
 
 __Nichtfunktional__
+
 - [x] Muss in Clojure programmiert sein.
 - [x] Muss per REST angesprochen werden können.
 - [x] Muss mindestens drei verschiedene Design Patterns für funktionale Programmierung verwenden.
 - [ ] Soll eine generische Lösung darstellen (Email): Termine und Inhalt der Email-Nachricht soll konfigurierbar sein.
 
 __Funktional__
+
 - [x] Muss für jeden eingeschriebenen Nutzer eines Moodle-Kurses einen Zustand verwalten.
 - [x] Soll ein Web-Frontend haben, das ohne Moodle verwendbar ist.
 - [x] Soll im verwalteten Zustand eines Moodle-Kurs-Nutzers den Stand des Kommunikationsablaufes repräsentieren.
@@ -23,6 +26,7 @@ __Funktional__
 - [ ] Soll zu mindestens drei vordefinierten Zeitpunkten im Semester von sich aus per E-Mail Nachrichten an die eingeschriebenen Nutzern eines Moodle-Kurses versenden und z.B. auf Fristen hinweisen.
 
 __Dokumentation__
+
 - [x] Muss bis 13.07. (COB) dokumentiert und im Quellcode abgegeben sein.
 - [x] Muss über Moodle als PDF oder als Link auf ein PDF oder Markdown-Dokument in github oder vergleichbar abgegeben werden.
 - [x] Muss die Schnittstelle des Micro-Service spezifizieren.
@@ -33,32 +37,35 @@ __Dokumentation__
 
 ## DevOps
 
-Das System besteht aus vier ``docker``-Container, die mittels `docker-compose` orchestiert werden.
+Das System besteht aus vier `docker`-Container, die mittels `docker-compose` orchestiert werden.
 Das System besteht aus einem Backendserver, der die Grundlagen der Intenterkennung liefert.
 Daneben existiert ein Frontend, um das System benutzbar zu machen.
 Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet. 
-Die Nutzerdaten werden in ``mongoDB`` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
+Die Nutzerdaten werden in `mongoDB` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
 
 
 __Reverse Proxy__
+
 Der Proxy nimmt alle von außen an docker geleitete Requests an und leitet diese entsprechend des Pfades an die entsprechenden Mircoservices weiter.
 Durch den Einsatz des Proxys muss nur ein Port für das Projekt geöffnet sein.
 Des Weiteren kann nun im Frontend die Hostangabe für das Backend entfallen.
 Darüber hinaus könnte man ihn zur Lastenverteilung einsetzen.
 
-Alle Requests, die mit ``<host>:<port>/api/`` anfangen, werden an das Backend weitergeleitet, der Rest an das Frontend gesendet.
-Der Mircoservice nutzt ``nginx`` als Server.
+Alle Requests, die mit `<host>:<port>/api/` anfangen, werden an das Backend weitergeleitet, der Rest an das Frontend gesendet.
+Der Mircoservice nutzt `nginx` als Server.
 
 __Frontend__
+
 Das Frontend nimmt alle auf Port 80 ankommenden Requests entgegen und liefert die ensprechende Response zurück.
-Der Mircoservice nutzt ``nginx`` als Server.
-Alle Frontend Requests werden über ```/api/...``` an das Backend gesendet. 
+Der Mircoservice nutzt `nginx` als Server.
+Alle Frontend Requests werden über `/api/...` an das Backend gesendet. 
 
 __Backend__
-Das Backend nutzt einen ``jetty`` Server für Clojure und den Port 5000.
+
+Das Backend nutzt einen `jetty` Server für Clojure und den Port 5000.
 
 
-> __Mögliche Verbesserungen__
+> #### Mögliche Verbesserungen
 > Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
@@ -71,9 +78,10 @@ Das System nutzt die lokale Registry.
 2. `build.sh`ausführen
 3. `up.sh` ausführen
 
-Muss in einen Container eingeriffen werden, kann man ```docker exec -ti <extenden-container-name> sh``` nutzen. Dies öffnet eine ```sh```-Konsole im Container.
+Muss in einen Container eingeriffen werden, kann man `docker exec -ti <extenden-container-name> sh` nutzen. Dies öffnet eine `sh`-Konsole im Container.
 
 __Build-Skripte__
+
 Diese Skripte dienen der Bequemlichkeit, um nicht immer den langen ```docker-compose```-Befehl eintippen zu müssen.
 
 ```
@@ -87,6 +95,7 @@ init.sh // Generiert das reverse-proxy Image. Dies ist nicht in build.sh erhalte
 ```
 
 __Docker-Skripte__
+
 Das System wird mittels `docker-compose` orchestriert. In `efp-yaml` werden die drei Microservices definiert. Falls der Port 8080 auf dem Host schon vergeben ist, kann man ihn dort ändern.
 
 ```
@@ -106,8 +115,6 @@ logs/stop/up
 ---
 
 ## Architektur
-
-### Beschreibung
 
 Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 
