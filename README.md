@@ -40,8 +40,7 @@ Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgesch
 Die Nutzerdaten werden in ``mongoDB`` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
 
 
-### Reverse Proxy
-
+__Reverse Proxy__
 Der Proxy nimmt alle von außen an docker geleitete Requests an und leitet diese entsprechend des Pfades an die entsprechenden Mircoservices weiter.
 Durch den Einsatz des Proxys muss nur ein Port für das Projekt geöffnet sein.
 Des Weiteren kann nun im Frontend die Hostangabe für das Backend entfallen.
@@ -50,18 +49,16 @@ Darüber hinaus könnte man ihn zur Lastenverteilung einsetzen.
 Alle Requests, die mit ``<host>:<port>/api/`` anfangen, werden an das Backend weitergeleitet, der Rest an das Frontend gesendet.
 Der Mircoservice nutzt ``nginx`` als Server.
 
-### Frontend
-
+__Frontend__
 Das Frontend nimmt alle auf Port 80 ankommenden Requests entgegen und liefert die ensprechende Response zurück.
 Der Mircoservice nutzt ``nginx`` als Server.
 Alle Frontend Requests werden über ```/api/...``` an das Backend gesendet. 
 
-### Backend
-
+__Backend__
 Das Backend nutzt einen ``jetty`` Server für Clojure und den Port 5000.
 
 
-> ### Mögliche Verbesserungen
+> __Mögliche Verbesserungen__
 > Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
@@ -76,54 +73,35 @@ Das System nutzt die lokale Registry.
 
 Muss in einen Container eingeriffen werden, kann man ```docker exec -ti <extenden-container-name> sh``` nutzen. Dies öffnet eine ```sh```-Konsole im Container.
 
-### build-Skripte
-
+__Build-Skripte__
 Diese Skripte dienen der Bequemlichkeit, um nicht immer den langen ```docker-compose```-Befehl eintippen zu müssen.
 
-#### build.sh
+```
+build.sh // generiert für das Back- und Frontend nach Änderungen neue Images
 
-Generiert für das Back- und Frontend nach Änderungen neue Images.
+build-backend.sh // generiert ein neues Backend Image
 
-#### build-backend.sh
+build-frontend.sh // generiert ein neues Frontend Image
 
-Generiert ein neues Backend Image.
+init.sh // Generiert das reverse-proxy Image. Dies ist nicht in build.sh erhalten, da das Image nur einmal erzeugt werden muss und daran keine Änderungen nötig sein sollten.
+```
 
-#### build-frontend.sh
+__Docker-Skripte__
+Das System wird mittels `docker-compose` orchestriert. In `efp-yaml` werden die drei Microservices definiert. Falls der Port 8080 auf dem Host schon vergeben ist, kann man ihn dort ändern.
 
-Generiert ein neues Frontend Image.
+```
+down.sh // stoppt die Mircoservices und entfernt die Container
 
-#### init.sh
+logs.sh // zeigt den Inhalt der  Standardausgabe der Container an
 
-Generiert das reverse-proxy Image. Dies ist nicht in build.sh erhalten, da das Image nur einmal erzeugt werden muss und daran keine Änderungen nötig sein sollten.
+stop.sh // stoppt die Container
 
-### docker-Skripte
+up.sh // startet alle Container
 
-Das System wird mittels ```docker-compose``` orchestriert. In ``efp-yaml`` werden die drei Microservices definiert. Falls der Port 8080 auf dem Host schon vergeben ist, kann man ihn dort ändern.
+update.sh // stoppt und Entfernt die bestehenden Container und Startet die aktualisierten Images
 
-#### down.sh
-
-Stoppt die Mircoservices und entfernt die Container.
-
-#### logs.sh
-
-Zeigt den Inhalt der  Standardausgabe der Container an.
-
-#### stop.sh
-
-Stoppt die Container.
-
-#### up.sh
-
-Startet alle Container
-
-#### update.sh
-
-Stoppt und Entfernt die bestehenden Container und Startet die aktualisierten Images.
-
-#### logs/stop/up
-
-Die Skripte können auch für einen einzelnen Container benutzt werden.
-    ```./<script>.sh <container-name>```
+logs/stop/up 
+./<script>.sh <container-name> // Die Skripte können auch für einen einzelnen Container benutzt werden.
 
 ---
 
