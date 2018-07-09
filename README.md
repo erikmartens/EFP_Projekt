@@ -64,9 +64,7 @@ __Backend__
 
 Das Backend nutzt einen `jetty` Server für Clojure und den Port 5000.
 
-
-> #### Mögliche Verbesserungen
-> Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
+__Mögliche Verbesserungen:__ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
 
@@ -111,6 +109,7 @@ update.sh // stoppt und Entfernt die bestehenden Container und Startet die aktua
 
 logs/stop/up 
 ./<script>.sh <container-name> // Die Skripte können auch für einen einzelnen Container benutzt werden.
+```
 
 ---
 
@@ -195,27 +194,31 @@ Als Resource steht ``/query`` zur Verfügung.
 
 - Resource: Query
 - Body: 
-	`{ 
+	```
+	{ 
 		userId: String, 
 		userChatMessage: String,
 		timeStamp: Number 
-	}`
+	}
+	```
 
 #### Response
 
 - Resource: Query
 - StatusCode: HTTP-Status-Code
 - Body: 
-	`{ 
+	```
+	{ 
 		statusCode: Number, 
 		userId: String, 
 		userChatMessage: String, 
 		botChatMessage: String, 
 		intentName: String, 
 		timeStamp: Number 
-	}`
+	}
+	```
 	
-Als weitere Schnittstelle steht ``chat`` bereit.
+Als weitere Schnittstelle steht `chat` bereit.
 
 #### Request
 
@@ -224,7 +227,7 @@ Als weitere Schnittstelle steht ``chat`` bereit.
 #### Response
 
 - Body:
-    ```json
+    ```
     {
       "userId" : "String", 
       "userChatMessage" : "String",
@@ -245,13 +248,13 @@ Alle Praxissemsterfragen sind in einer JSON-Datei abgelegt.
 Jeder Frage ist ein eindeutiger Intent zugeordnet.
 Für jede Fragen können mehrere Varianten angegeben werden.
 
-Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (``prepare-sentence``):
+Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
 1. Rechtschreibüberprüfung (optional)
 
-2. Alle Satz- und Sonderzeichen werden entfernt. (```remove-punctuation```)
+2. Alle Satz- und Sonderzeichen werden entfernt. (`remove-punctuation`)
 
-3. Alle unnötigen Wörter (``stop words``) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe ``backend/resources/stop-words.json``).
+3. Alle unnötigen Wörter (`stop words`) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe `backend/resources/stop-words.json`).
 
 4. Alle Wörter werden auf ihren Grundtyp abgebildet (``stem-sentence``). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
 
