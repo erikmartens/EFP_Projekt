@@ -62,7 +62,6 @@ Das Backend nutzt einen ``jetty`` Server für Clojure und den Port 5000.
 
 
 > ### Mögliche Verbesserungen
-
 > Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
