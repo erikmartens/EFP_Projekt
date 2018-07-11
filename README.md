@@ -325,3 +325,9 @@ Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt.
 ---
 
 ## Email Service
+
+__Beschreibung__
+
+__Konfiguration von termingesteuerten Mails__
+
+---
