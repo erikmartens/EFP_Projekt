@@ -37,21 +37,23 @@ __Dokumentation__
 
 ## Deployment-Anleitung
 
-Damit alles ausgeführt werden kann, mussen zusätzlich folgendes (global) auf dem Ziel-Rechner installiert sein:
+Zunächst müssen alle Dateien auf das Zielsystem kopiert werden. Damit alles ausgeführt werden kann, mussen zusätzlich folgendes (global) auf dem Ziel-Rechner installiert sein:
 
 - Docker
 - Docker Compose (bei Mac schon in Docker enthalten, bei Linux extra installieren)
 - node.js
 
-Danach können zu Starten folgende Skripte verwendet werden:
+Danach können zum Starten folgende Skripte verwendet werden:
 
 1. `init.sh` ausführen
 2. `build.sh`ausführen
-3. `up.sh` ausführen
+3. `updata.sh` ausführen
 
 Muss in einen Container eingeriffen werden, kann man `docker exec -ti <extenden-container-name> sh` nutzen. Dies öffnet eine `sh`-Konsole im Container.
 
 Der Mongo-Container (mit der Mongo-Datenbank `efp` mit Collection `request`, die den Nachrichten-Verlauf (Zustand) der eingeschriebenen Nutzer speichert) kann mit geeigneten Programmen über Port `27018` erreicht werden (es gibt kein Passwort).
+
+Die Port-Freigabe am Host muss händisch eingerichtet werden, damit das System von außen erreichbar ist.
 
 __Build-Skripte__
 
