@@ -35,39 +35,6 @@ __Dokumentation__
 
 ---
 
-## DevOps
-
-Das System besteht aus vier `docker`-Container, die mittels `docker-compose` orchestiert werden.
-Das System besteht aus einem Backendserver, der die Grundlagen der Intenterkennung liefert.
-Daneben existiert ein Frontend, um das System benutzbar zu machen.
-Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet. 
-Die Nutzerdaten werden in `mongoDB` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
-
-
-__Reverse Proxy__
-
-Der Proxy nimmt alle von außen an docker geleitete Requests an und leitet diese entsprechend des Pfades an die entsprechenden Mircoservices weiter.
-Durch den Einsatz des Proxys muss nur ein Port für das Projekt geöffnet sein.
-Des Weiteren kann nun im Frontend die Hostangabe für das Backend entfallen.
-Darüber hinaus könnte man ihn zur Lastenverteilung einsetzen.
-
-Alle Requests, die mit `<host>:<port>/api/` anfangen, werden an das Backend weitergeleitet, der Rest an das Frontend gesendet.
-Der Mircoservice nutzt `nginx` als Server.
-
-__Frontend__
-
-Das Frontend nimmt alle auf Port 80 ankommenden Requests entgegen und liefert die ensprechende Response zurück.
-Der Mircoservice nutzt `nginx` als Server.
-Alle Frontend Requests werden über `/api/...` an das Backend gesendet. 
-
-__Backend__
-
-Das Backend nutzt einen `jetty` Server für Clojure und den Port 5000.
-
-> __Mögliche Verbesserungen__ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
-
----
-
 ## Deployment-Anleitung
 
 Das System nutzt die lokale Registry.
@@ -110,6 +77,37 @@ update.sh // stoppt und Entfernt die bestehenden Container und Startet die aktua
 logs/stop/up 
 ./<script>.sh <container-name> // Die Skripte können auch für einen einzelnen Container benutzt werden.
 ```
+
+## DevOps
+
+Das System besteht aus vier `docker`-Container, die mittels `docker-compose` orchestiert werden.
+Das System besteht aus einem Backendserver, der die Grundlagen der Intenterkennung liefert.
+Daneben existiert ein Frontend, um das System benutzbar zu machen.
+Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet. 
+Die Nutzerdaten werden in `mongoDB` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
+
+
+__Reverse Proxy__
+
+Der Proxy nimmt alle von außen an docker geleitete Requests an und leitet diese entsprechend des Pfades an die entsprechenden Mircoservices weiter.
+Durch den Einsatz des Proxys muss nur ein Port für das Projekt geöffnet sein.
+Des Weiteren kann nun im Frontend die Hostangabe für das Backend entfallen.
+Darüber hinaus könnte man ihn zur Lastenverteilung einsetzen.
+
+Alle Requests, die mit `<host>:<port>/api/` anfangen, werden an das Backend weitergeleitet, der Rest an das Frontend gesendet.
+Der Mircoservice nutzt `nginx` als Server.
+
+__Frontend__
+
+Das Frontend nimmt alle auf Port 80 ankommenden Requests entgegen und liefert die ensprechende Response zurück.
+Der Mircoservice nutzt `nginx` als Server.
+Alle Frontend Requests werden über `/api/...` an das Backend gesendet. 
+
+__Backend__
+
+Das Backend nutzt einen `jetty` Server für Clojure und den Port 5000.
+
+> __Mögliche Verbesserungen__ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
 
