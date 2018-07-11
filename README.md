@@ -94,6 +94,9 @@ Daneben existiert ein Frontend, um das System benutzbar zu machen.
 Aus Sicherheistgründen wurden dem Front- und Backend ein Reverse Proxy vorgeschaltet. 
 Die Nutzerdaten werden in `mongoDB` gespeichert. Die Daten werden durch ein Volume auf der Hostfestplatte gespeichert.
 
+<p align="center">
+<img src="readme_resources/devops_schematic.png" alt="Devops Schematic">
+</p>
 
 __Reverse Proxy__
 
@@ -166,12 +169,6 @@ Unter Anderem in den Komponenten "recognition" und "utils" wird das Function Bui
 In der Kompnente Recognition werden alle drei Higher-Order-Functions verwendet, unter Anderem um die Filterungsstufen der Intenterkennung zu realisieren (siehe Intenterkennung).
 
 ### Frontend
-
-Bausteinsicht - Komponenten des Frontends
-
-<p align="center">
-<img src="readme_resources/frontend_schematic.png" alt="Frontend Baustein-Sicht">
-</p>
 
 Das Frontend ist in Elm, einer an Haskell orientierten funktionalen Programmiersprache implementiert.
 Elm wird durch einen Compiler zu JavaScript transpiliert.
@@ -313,16 +310,6 @@ Alle Praxissemsterfragen sind in der JSON-Datei `backend/resources/questions.jso
 
 Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
-__Input__ 
-
-Chat-Nachricht des Benutzers als String
-
-__Output__ 
-
-Chat-Nachricht des Bots als String
-
-__Ablauf__
-
 0. Rechtschreibüberprüfung (optional) mit dem [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector) __[optional, wird nicht verwendet]__
 
 1. Alle Satz- und Sonderzeichen werden entfernt (`remove-punctuation`)
@@ -331,10 +318,18 @@ __Ablauf__
 
 3. Alle Wörter werden auf ihren Grundtyp abgebildet (`stem-sentence`) mit dem [Snowball Stemmer](https://clojars.org/snowball-stemmer). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
 
-4. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
+__Ablauf bei ankommender Nutzeranfrage__
 
-> __Anmerkung__ Mit der Cosine-Similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut.
-Es sollte ausreichen wenn wir mehrere Versionen der Frage und eine Rechtschreibüberprüfung haben.
+__Input:__ Chat-Nachricht des Benutzers als String
+
+
+__Output:__ Chat-Nachricht des Bots als String
+
+1. Ausführung von `prepare-sentence` mit Nutzeranfrage
+
+2. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
+
+> __Anmerkung__ Mit der Cosine-Similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut. Es ist ausreichend, wenn wir mehrere Versionen der Frage und keine Rechtschreibüberprüfung haben.
 
 ---
 
