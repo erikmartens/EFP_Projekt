@@ -435,12 +435,14 @@ Das JSON, welches die Telegram-Nachricht enthält, ist wie folgt aufgebaut:
 
 __Beschreibung__
 
-FÜr die Email-Kommunikation ist die Backend-Komponente "email" (`backend/src/chatbot/email.clj`) zuständig. Emails werden über ein GMX Email-Konto versendet. Dazu spricht "email" die GMX-Api über `mail.gmx.net` via `smtp` an, analog zum Postausgang von Desktop Email Programmen. Für das Email-Konto liegen folgende Zugangsdaten vor:
+Für die Email-Kommunikation ist die Backend-Komponente "email" (`backend/src/chatbot/email.clj`) zuständig. Emails werden über ein GMX Email-Konto versendet. Dazu spricht "email" die GMX-Api über `mail.gmx.net` via `smtp` an, analog zum Postausgang von Desktop Email Programmen. Für das Email-Konto liegen folgende Zugangsdaten vor:
 
 - Email: `ChatBotPs@gmx.de`
 - Passwort: `ChatBotPs`
 
 "email" erfragt von "mongo" die Liste der Matrikelnummern, derjenigen, die bereits mit dem Chatbot in Kontakt getreten sind, sodass ein Zustand gespeichert wurde. An diese werden dann Emails versendet.
+
+Um ein anderes Email-Konto zu verwenden muss "email" mit der neuen Adresse angepasst werden.
 
 __Konfiguration von termingesteuerten Mails__
 
