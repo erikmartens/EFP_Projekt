@@ -9,7 +9,8 @@
             [ring.middleware.json :refer [wrap-json-body]]
             [chatbot.recognition]
             [chatbot.mongo]
-            [chatbot.telegram-bot]))
+            [chatbot.telegram-bot]
+            [chatbot.email]))
 
 
 (defroutes app-routes
