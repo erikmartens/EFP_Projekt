@@ -16,7 +16,6 @@
   [input]
   (clojure.string/split (clojure.string/lower-case input) #" "))
 
-
 (defn make-hash-of-words
   "Creates hash table [:word number-of-occurencies]"
   ([input] (make-hash-of-words input {}))

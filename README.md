@@ -339,7 +339,7 @@ __Output:__ Chat-Nachricht des Bots als String
 
 1. Ausführung von `prepare-sentence` mit Nutzeranfrage
 
-2. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
+2. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit (Unser Code basiert in Teilen auf [dieser Vorlage](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
 
 > __Anmerkung__ Mit der Cosine-Similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut. Es ist ausreichend, wenn wir mehrere Versionen der Frage und keine Rechtschreibüberprüfung haben.
 
