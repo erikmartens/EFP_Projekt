@@ -178,16 +178,19 @@ __Eingesetzte Pattern__
 1. Chain of Operations
 
     Das `Elm`-Äquivalent zum `Clojure` Threading-Makro `->>` ist `|>`.
-    Als Beispiel ist die Funktion ```fetchChatbotRequest``` zu nenen:
-    ```elm
-    fetchChatbotMessage : String -> String -> Time.Time -> Cmd Msg
-    fetchChatbotMessage userId userMessage timestamp =
-        Http.post
-            "/api/query"
-            (Http.jsonBody (encodeUserChatMessageToJson userMessage userId timestamp))
-            chatbotMessageDecoder
-                |> RemoteData.sendRequest
-                |> Cmd.map FetchChatbotMessage
+    Als Beispiel ist die Funktion `fetchChatbotRequest` zu nenen:
+    ```
+// BSP:    
+
+    elm
+    	fetchChatbotMessage : String -> String -> Time.Time -> Cmd Msg
+    	fetchChatbotMessage userId userMessage timestamp =
+        	Http.post
+            	"/api/query"
+            	(Http.jsonBody (encodeUserChatMessageToJson userMessage userId timestamp))
+            	chatbotMessageDecoder
+                	|> RemoteData.sendRequest
+                	|> Cmd.map FetchChatbotMessage
     ``` 
 
 2. Domain Specific Language
@@ -197,8 +200,10 @@ __Eingesetzte Pattern__
     Das Layout wird mittels des ``Html``-Moduls erzeugt.
     Siehe die ```view```-Funktion.
     
-    Beispiel:
-    ```elm
+    ```
+// BSP:
+
+    elm
        view : Model -> Html Msg
        view { messages, input } =
            Html.div [ Html.Attributes.class "chatbot-chat-outer-container" ]
@@ -220,7 +225,10 @@ __Eingesetzte Pattern__
     Die reduce heißt in Elm foldl.
     
     Beispiel:
-    ```elm
+    ```
+// BSP:
+
+    elm
        linkTextCombined =
            textElements
                |> List.indexedMap (,)
