@@ -21,3 +21,10 @@
                 (assoc doc :_id (clojure.core/str (:_id doc)) :answer answer))))
        )
   )
+
+  (defn list-user-ids
+    []
+    (->> (monger.collection/find-maps db "request")
+         (map :userId)
+         (distinct)
+         ))
