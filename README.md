@@ -277,7 +277,7 @@ __Response__
 	}
 ```
 	
-Als Schnittstelle für das Abholden des Nutzer-Chat-Verlaufs steht `api/chat` bereit.
+Als Schnittstelle für das Abholen des Nutzer-Chat-Verlaufs steht `api/chat` bereit.
 
 __Request__
 
@@ -311,6 +311,8 @@ Wird für die User ID kein Verlauf gefunden, so wird ein leeres Array zurückges
 
 ## Intenterkennung
 
+__Fragen Hinzufügen__
+
 Alle Praxissemsterfragen sind in der JSON-Datei `backend/resources/questions.json` abgelegt. Jeder Frage ist ein eindeutiger Intent zugeordnet. Für jede Fragen können mehrere Varianten angegeben werden. Neue Fragen können wie folgt hinzugefügt werden:
 
 1. Ein neues Objekt im JSON-Array hinzufügen, mit folgenden Attributen:
@@ -319,6 +321,8 @@ Alle Praxissemsterfragen sind in der JSON-Datei `backend/resources/questions.jso
 	- `answer`: String -> Antwort die das System für diesen Intent zurückgibt
 2. `buildBackend.sh` ausführen
 3. `update.sh` ausführen
+
+__Ablauf__
 
 Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
