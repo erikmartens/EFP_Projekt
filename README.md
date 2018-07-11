@@ -281,9 +281,9 @@ Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos
 
 __Chat-Nachricht vom Bot erhalten/zum Bot schicken__
 
-Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/telegram_bot.clj`)
+Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/telegram_bot.clj`) nutzt die von [Morse](https://clojars.org/morse) angebotenen Methoden, um die Kommunikation mit Telegram zu übernehmen und die eingehenden Fragen zu verwerten.
 
-Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt:
+Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt. Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. Dies geschieht... . Das JSON ist wie folgt aufgebaut:
 
 ```
 {
@@ -309,7 +309,7 @@ Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt:
 			type: "private"
 		},
 			date: 1529655950,
-			text: "/help",
+			text: "some chat message",
 			entities: 
 				[{
 					offset: 0, 
@@ -320,6 +320,8 @@ Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt:
 }
 ```
 
-Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. [Morse](https://clojars.org/morse) verarbeitet das ankommende JSON und stellt folgendes Clojar-Objekt bereit:[Morse](https://clojars.org/morse) stellt per Callback die Möglichkeit bereit, eine Antwort an Telegram zu übergeben.
+[Morse](https://clojars.org/morse) stellt Methoden zum senden von Antworten an Telegram-Chat-Instanz. An diese kann ein String mit der Antwort übergeben werden.
 
 ---
+
+## Email Service
