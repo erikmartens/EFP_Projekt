@@ -126,11 +126,28 @@ Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 
 ### Backend
 
-Bausteinsicht - Komponenten des Backends
+__Bausteinsicht - Komponenten des Backends__
 
 <p align="center">
 <img src="readme_resources/backend_schematic.png" alt="Backend Baustein-Sicht">
 </p>
+
+__Aufbau des Micro-Service__
+
+|Name|Beschreibung|
+|:---:|:---:|
+core | Definiert die REST-Schnittstelle und leitet die Anfragen an die Fachkomponenten weiter
+|:---:|:---:|
+email | Versendet zu definierbaren Zeitpunkten Emails, an alle Studenten, deren Matrikel-Nr. in der Datenbank gespeichert sind wegen der Zustands-Verwaltung (müssen mit dem Chatbot gechattet haben)
+|:---:|:---:|
+mongo | Bearbeitet alle Datenbankanfragen und -speicherungen
+|:---:|:---:|
+recognition | Stellt Funktionalitäten für die Intent-Erkennung zur Verfügung
+|:---:|:---:|
+telegram-bot | Verwaltet die Schnittstelle zwischen dem Chatbot und Telegram her, sodass NAchricht per Telegram an den Chatbot gesendet werden können und Nutzer auf Telegram Antworten dazu erhalten
+|:---:|:---:|
+utils | Stellt Helfer-Funktionen für die anderen Komponenten zur Verfügung
+
 
 __Eingesetzte Pattern__
 
@@ -233,7 +250,7 @@ __Eingesetzte Pattern__
                |> List.reverse
 ```
 
-### REST Schnittstelle
+### Schnittstellen des Micro Service - REST Schnittstelle
 
 Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `api/query` zur Verfügung.
 
