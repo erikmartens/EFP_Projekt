@@ -179,7 +179,8 @@ __Eingesetzte Pattern__
 
     Das `Elm`-Äquivalent zum `Clojure` Threading-Makro `->>` ist `|>`.
     Als Beispiel ist die Funktion `fetchChatbotRequest` zu nenen:
-    ```
+
+```
 // BSP:    
 
     elm
@@ -191,16 +192,16 @@ __Eingesetzte Pattern__
             	chatbotMessageDecoder
                 	|> RemoteData.sendRequest
                 	|> Cmd.map FetchChatbotMessage
-    ``` 
+``` 
 
 2. Domain Specific Language
 
-    ``Elm`` abstrahiert den ``DOM`` und `HTML`.
-    Alle ``DOM``-Zugriffe werden von `Elm` erledigt.
-    Das Layout wird mittels des ``Html``-Moduls erzeugt.
-    Siehe die ```view```-Funktion.
+    `Elm` abstrahiert den `DOM` und `HTML`.
+    Alle `DOM`-Zugriffe werden von `Elm` erledigt.
+    Das Layout wird mittels des `Html`-Moduls erzeugt.
+    Siehe die `view`-Funktion.
     
-    ```
+```
 // BSP:
 
     elm
@@ -217,15 +218,14 @@ __Eingesetzte Pattern__
                , Html.div [ Html.Attributes.class "chatbot-chat-input-container" ]
                    [ Html.input [ onEnter UserMessage, Html.Events.onInput InputAdd, Html.Attributes.value input, Html.Attributes.class "chatbot-chat-input" ] [] ]
                ]
-    ```
+```
 
 3. Map, Filter & Reduce
 
     Die Operationen sind in Elm von jedem Datentyp/Module selbst implementiert.
     Die reduce heißt in Elm foldl.
     
-    Beispiel:
-    ```
+```
 // BSP:
 
     elm
@@ -234,7 +234,7 @@ __Eingesetzte Pattern__
                |> List.indexedMap (,)
                |> List.foldl (\( index, textElement ) combinedElements -> (Maybe.withDefault (Html.br [] []) (Array.get index linkElements)) :: textElement :: combinedElements) []
                |> List.reverse
-    ```
+```
 
 ### REST Schnittstelle
 
@@ -244,20 +244,20 @@ __Request__
 
 - Resource: Query
 - Body: 
-	```
+```
 	{ 
 		userId: String, 
 		userChatMessage: String,
 		timeStamp: Number 
 	}
-	```
+```
 
 __Response__
 
 - Resource: Query
 - StatusCode: HTTP-Status-Code
 - Body: 
-	```
+```
 	{ 
 		statusCode: Number, 
 		userId: String, 
@@ -266,7 +266,7 @@ __Response__
 		intentName: String, 
 		timeStamp: Number 
 	}
-	```
+```
 	
 Als Schnittstelle für das Abholden des Nutzer-Chat-Verlaufs steht `api/chat` bereit.
 
