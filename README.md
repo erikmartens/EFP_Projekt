@@ -355,7 +355,7 @@ __Output:__ Chat-Nachricht des Bots als String
 
 __Beschreibung__
 
-Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos, über den der Bot erstellt wurde. Nur dieses Konto kann Änderungen am Bot vornehmen, mithilfe eines Chats mit dem Telegram-Bot `Botfather`. Dieser Ablauf kann nicht verändert werden. Es kann jedoch einfach ein neuer Bot erstellt werden und der Token im Quellcode in `backend/src/telegram_bot.clj` verändert werden, damit dieser funktioniert. Mehr Informationen sind in der [Beschreibung der Telegram Bot API](https://core.telegram.org/bots/api) verfügbar.
+Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos, über den der Bot erstellt wurde. Nur dieses Konto kann Änderungen am Bot vornehmen, mithilfe eines Chats mit dem Telegram-Bot `Botfather`. Dieser Ablauf kann nicht verändert werden. Es kann jedoch einfach ein neuer Bot erstellt werden und der Token im Quellcode in `backend/src/chatbot/telegram_bot.clj` verändert werden, damit dieser funktioniert. Mehr Informationen sind in der [Beschreibung der Telegram Bot API](https://core.telegram.org/bots/api) verfügbar.
 
 - __Bot User Name:__ HSMAPraxisSemesterBot
 - __URL:__ https://t.me/HSMAPraxisSemesterBot
@@ -363,7 +363,7 @@ Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos
 
 __Chat-Nachricht vom Bot erhalten/zum Bot schicken__
 
-Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/telegram_bot.clj`) nutzt die von [Morse](https://clojars.org/morse) angebotenen Methoden, um die Kommunikation mit Telegram zu übernehmen und die eingehenden Fragen zu verwerten.
+Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/chatbot/telegram_bot.clj`) nutzt die von [Morse](https://clojars.org/morse) angebotenen Methoden, um die Kommunikation mit Telegram zu übernehmen und die eingehenden Fragen zu verwerten.
 
 Von Telegram werden Nachrichten mit REST per POST Request als JSON im Body übermittelt. Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. Dies geschieht wie folgt __wenn man ein self-signed Certificate verwendet__:
 
@@ -387,7 +387,7 @@ __Verwendet man ein authentifiziertes Zertifikat__, so reicht es die Zeile
 ; (api/set-webhook token "https://efp-chatbot.westeurope.cloudapp.azure.com/api/telegram_handlerr")
 ```
 
-in `backend/src/telegram_bot.clj` wieder einzukommentieren und die URL anzupassen.
+in `backend/src/chatbot/telegram_bot.clj` wieder einzukommentieren und die URL anzupassen.
 
 
 Das JSON, welches die Telegram-Nachricht enthält, ist wie folgt aufgebaut:
@@ -435,6 +435,21 @@ Das JSON, welches die Telegram-Nachricht enthält, ist wie folgt aufgebaut:
 
 __Beschreibung__
 
+FÜr die Email-Kommunikation ist die Backend-Komponente "email" (`backend/src/chatbot/email.clj`) zuständig. Emails werden über ein GMX Email-Konto versendet. Dazu spricht "email" die GMX-Api über `mail.gmx.net` via `smtp` an, analog zum Postausgang von Desktop Email Programmen. Für das Email-Konto liegen folgende Zugangsdaten vor:
+
+- Email: `ChatBotPs@gmx.de`
+- Passwort: `ChatBotPs`
+
+"email" erfragt von "mongo" die Liste der Matrikelnummern, derjenigen, die bereits mit dem Chatbot in Kontakt getreten sind, sodass ein Zustand gespeichert wurde. An diese werden dann Emails versendet.
+
 __Konfiguration von termingesteuerten Mails__
+
+Das Versenden von Emails (Datum), sowie deren Inhalt kann über das JSON `backend/resources/dates.json` konfiguriert werden. Die Anzahl der Emails ist beliebig (indem ein weiteres Objekt zu JSON hinzugefügt wird), es können als mehr als drei Mails pro Semester verschickt werden. Dabei kann folgendes konfiguriert werden:
+
+- Datum: String (yyyy-mm-dd)
+- Betreff: String
+- Inhalt: String
+
+Mails werden an den eingestellten Daten zur Serverstartzeit verschickt. "email" führt die Funktion zum Prüfen, ob für den aktuellen Tag in der Konfigurations-Datei `backend/resources/dates.json` Jobs vorliegen, täglich zu dieser Uhrzeit durch. Sollte dies der Fall sein, geht die Email raus. D.h. pro Tag können mehrere, unterschiedliche Emails hinterlegt werden. Es ist ratsam den Server um zwischen 00:00 Uhr und 6:00 Uhr zu starten, sodass man bis Abends noch Mails konfigurieren kann, die dann direkt am nächsten Tag rausgehen.
 
 ---
