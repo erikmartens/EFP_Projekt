@@ -7,7 +7,7 @@
 
 (defn send-mails
   []
-	(def matrikelnummern (list-user-ids))
+	(def matrikelnummern (chatbot.mongo/list-user-ids))
 	(def now (.format (new java.text.SimpleDateFormat "yyyy-MM-dd") (java.util.Date.))) ;Heutiges Datum im Format tt.mm.jjjj
 	(loop [x (- (count datesJson) 1)]
 	(when (> x -1)
