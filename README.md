@@ -255,11 +255,11 @@ __Request__
 
 - Resource: Query
 - Body: 
-```
+```JSON
 	{ 
-		userId: String, 
-		userChatMessage: String,
-		timeStamp: Number 
+		"userId": "String", 
+		"userChatMessage": "String",
+		"timeStamp": "Number"
 	}
 ```
 
