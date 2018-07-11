@@ -37,7 +37,7 @@ __Dokumentation__
 
 ## Deployment-Anleitung
 
-Das System nutzt die lokale Registry. Damit alles ausgeführt werden kann, mussen zusätzlich folgendes (gloabal) auf dem Ziel-Rechner installiert sein:
+Damit alles ausgeführt werden kann, mussen zusätzlich folgendes (global) auf dem Ziel-Rechner installiert sein:
 
 - Docker
 - Docker Compose (bei Mac schon in Docker enthalten, bei Linux extra installieren)
@@ -50,6 +50,8 @@ Danach können zu Starten folgende Skripte verwendet werden:
 3. `up.sh` ausführen
 
 Muss in einen Container eingeriffen werden, kann man `docker exec -ti <extenden-container-name> sh` nutzen. Dies öffnet eine `sh`-Konsole im Container.
+
+Der Mongo-Container (mit der Mongo-Datenbank `efp` mit Collection `request`, die den Nachrichten-Verlauf (Zustand) der eingeschriebenen Nutzer speichert) kann mit geeigneten Programmen über Port `27018` erreicht werden (es gibt kein Passwort).
 
 __Build-Skripte__
 
@@ -67,7 +69,7 @@ init.sh // Generiert das reverse-proxy Image. Dies ist nicht in build.sh erhalte
 
 __Docker-Skripte__
 
-Das System wird mittels `docker-compose` orchestriert. In `efp-yaml` werden die drei Microservices definiert. Falls der Port 8080 auf dem Host schon vergeben ist, kann man ihn dort ändern.
+Das System wird mittels `docker-compose` orchestriert. In `efp-yaml` werden die vier Microservices definiert. Falls der Port `80/443` auf dem Host schon vergeben ist, kann man ihn dort ändern.
 
 ```
 down.sh // stoppt die Mircoservices und entfernt die Container
@@ -112,8 +114,6 @@ Alle Frontend Requests werden über `/api/...` an das Backend gesendet.
 __Backend__
 
 Das Backend nutzt einen `jetty` Server für Clojure und den Port 5000.
-
-> __Mögliche Verbesserungen__ Das Frontend sollte auf den Port 5000 verschoben werden und alle Mircorservices nicht mehr als ``root`` laufen. Die Erzeugungsartefakte werden noch in die Container übernommen. Dies sollte durch einen eigenen Build-Container behoben werden.
 
 ---
 
@@ -306,7 +306,14 @@ Wird für die User ID kein Verlauf gefunden, so wird ein leeres Array zurückges
 
 ## Intenterkennung
 
-Alle Praxissemsterfragen sind in einer JSON-Datei abgelegt. Jeder Frage ist ein eindeutiger Intent zugeordnet. Für jede Fragen können mehrere Varianten angegeben werden.
+Alle Praxissemsterfragen sind in der JSON-Datei `backend/resources/questions.json` abgelegt. Jeder Frage ist ein eindeutiger Intent zugeordnet. Für jede Fragen können mehrere Varianten angegeben werden. Neue Fragen können wie folgt hinzugefügt werden:
+
+1. Ein neues Objekt im JSON-Array hinzufügen, mit folgenden Attributen:
+	- `questions`: [String] -> Variable Fragestellungen/Verschiedene Versionen der Frage, liegen linguistisch möglichst weit auseinander für bestmögliche Erkennung
+	- `intent`: String -> Eindeutiger Identifikator der Fragestellung
+	- `answer`: String -> Antwort die das System für diesen Intent zurückgibt
+2. `buildBackend.sh` ausführen
+3. `update.sh` ausführen
 
 Wenn das Backend gestartet wird, werden die Fragen geladen und anschließend wie jede ankommende Nutzerfrage bearbeitet (`prepare-sentence`):
 
