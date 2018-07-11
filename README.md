@@ -13,7 +13,7 @@ __Nichtfunktional__
 - [x] Muss in Clojure programmiert sein.
 - [x] Muss per REST angesprochen werden können.
 - [x] Muss mindestens drei verschiedene Design Patterns für funktionale Programmierung verwenden.
-- [ ] Soll eine generische Lösung darstellen (Email): Termine und Inhalt der Email-Nachricht soll konfigurierbar sein.
+- [x] Soll eine generische Lösung darstellen (Email): Termine und Inhalt der Email-Nachricht soll konfigurierbar sein.
 
 __Funktional__
 
@@ -23,7 +23,7 @@ __Funktional__
 - [x] Muss eine [Frage](https://jonathan.sv.hs-mannheim.de/mediawiki/index.php/Praxissemester_FAQ) zum Praxissemester beantworten können. Die Erkennung der Frage muss dabei flexibel sein.
 - [x] Soll jeweils drei andere weitere Fragen zum Praxissemester flexibel erkennen und beantworten können (mehrfach möglich).
 - [x] Muss eine Kommunikationsschnittstelle für Chats (bspw. IRC, Facebook) oder E-Mail unterstützen.
-- [ ] Soll zu mindestens drei vordefinierten Zeitpunkten im Semester von sich aus per E-Mail Nachrichten an die eingeschriebenen Nutzern eines Moodle-Kurses versenden und z.B. auf Fristen hinweisen.
+- [x] Soll zu mindestens drei vordefinierten Zeitpunkten im Semester von sich aus per E-Mail Nachrichten an die eingeschriebenen Nutzern eines Moodle-Kurses versenden und z.B. auf Fristen hinweisen.
 
 __Dokumentation__
 
@@ -47,7 +47,7 @@ Danach können zum Starten folgende Skripte verwendet werden:
 
 1. `init.sh` ausführen
 2. `build.sh`ausführen
-3. `updata.sh` ausführen
+3. `update.sh` ausführen
 
 Muss in einen Container eingeriffen werden, kann man `docker exec -ti <extenden-container-name> sh` nutzen. Dies öffnet eine `sh`-Konsole im Container.
 
@@ -57,7 +57,7 @@ Die Port-Freigabe am Host muss händisch eingerichtet werden, damit das System v
 
 __Build-Skripte__
 
-Diese Skripte dienen der Bequemlichkeit, um nicht immer den langen ```docker-compose```-Befehl eintippen zu müssen.
+Diese Skripte dienen der Bequemlichkeit, um nicht immer den langen `docker-compose`-Befehl eintippen zu müssen.
 
 ```
 build.sh // generiert für das Back- und Frontend nach Änderungen neue Images
