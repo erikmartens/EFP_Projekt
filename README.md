@@ -135,10 +135,9 @@ __Eingesetzte Pattern__
 
 Beispielsweise in der Komponente "recognition" wird Chain of Operations verwendet, um unnötige Variablen zu vermeiden.
 
-```
-// BSP:
+```Clojure
+; BSP:
 
-; answer-from-intent : String -> String
 (defn answer-from-intent
   "Converts an existing intent into the corresponding faq answer."
   [ intent ]
@@ -150,10 +149,10 @@ Beispielsweise in der Komponente "recognition" wird Chain of Operations verwende
 
 2. Function Builder
 
-Unter Anderem in den Komponenten "recoginition" und "utils" wird das Function Builder Pattern verwendet, um von der Thread-First auf die Thread-Last-Schreibweise zu wechseln und um die Lesbarkeit und Wartbarkeit zu verbessern. 
+Unter Anderem in den Komponenten "recognition" und "utils" wird das Function Builder Pattern verwendet, um von der Thread-First auf die Thread-Last-Schreibweise zu wechseln und um die Lesbarkeit und Wartbarkeit zu verbessern. 
 
-```
-// BSP:
+```Clojure
+; BSP:
 
 (defn get-thread-last
   "Use this version if you need to use the first-thread macro inside the last-thread macro."
@@ -164,7 +163,7 @@ Unter Anderem in den Komponenten "recoginition" und "utils" wird das Function Bu
 
 3. Map, Filter, Reduce
 
-In der Kompnente Recognition werden alle drei Higher-Order-Functions verwendet, unter Anderem um die Filterungs-Stufen der Intenterkennung zu realisieren (siehe Intenterkennung.)
+In der Kompnente Recognition werden alle drei Higher-Order-Functions verwendet, unter Anderem um die Filterungsstufen der Intenterkennung zu realisieren (siehe Intenterkennung).
 
 ### Frontend
 
@@ -184,10 +183,9 @@ __Eingesetzte Pattern__
     Das `Elm`-Äquivalent zum `Clojure` Threading-Makro `->>` ist `|>`.
     Als Beispiel ist die Funktion `fetchChatbotRequest` zu nenen:
 
-```
-// BSP:    
+```Elm
+-- BSP:
 
-    elm
     	fetchChatbotMessage : String -> String -> Time.Time -> Cmd Msg
     	fetchChatbotMessage userId userMessage timestamp =
         	Http.post
@@ -205,10 +203,9 @@ __Eingesetzte Pattern__
     Das Layout wird mittels des `Html`-Moduls erzeugt.
     Siehe die `view`-Funktion.
     
-```
-// BSP:
+```Elm
+-- BSP:
 
-    elm
        view : Model -> Html Msg
        view { messages, input } =
            Html.div [ Html.Attributes.class "chatbot-chat-outer-container" ]
@@ -229,10 +226,9 @@ __Eingesetzte Pattern__
     Die Operationen sind in Elm von jedem Datentyp/Module selbst implementiert.
     Die reduce heißt in Elm foldl.
     
-```
-// BSP:
+```Elm
+-- BSP:
 
-    elm
        linkTextCombined =
            textElements
                |> List.indexedMap (,)
@@ -261,14 +257,14 @@ __Response__
 - Resource: Query
 - StatusCode: HTTP-Status-Code
 - Body: 
-```
+```JSON
 	{ 
-		statusCode: Number, 
-		userId: String, 
-		userChatMessage: String, 
-		botChatMessage: String, 
-		intentName: String, 
-		timeStamp: Number 
+		"statusCode": 200, 
+		"userId": "String", 
+		"userChatMessage": "String", 
+		"botChatMessage": "String", 
+		"intentName": "String", 
+		"timeStamp": 157328931.0 
 	}
 ```
 	
@@ -290,13 +286,13 @@ __Response__
 
 - StatusCode: HTTP-Status-Code
 - Body:
-    ```
+    ```JSON
     [{
-      "userId" : "String", 
-      "userChatMessage" : "String",
-      "answer" : "String",
-      "intentName" : "String",
-      "timeStamp" : "Float"
+      "userId": "String", 
+      "userChatMessage": "String",
+      "answer": "String",
+      "intentName": "String",
+      "timeStamp": 157328931.0 
     }]
     ```
 
@@ -358,36 +354,36 @@ Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https:/
 
 Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt. Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. Dies geschieht... . Das JSON ist wie folgt aufgebaut:
 
-```
+```JSON
 {
-	update_id: 96255488,
-	message: 
+	"update_id": 96255488,
+	"message": 
 	{
-		message_id: 17,
-		from: 
+		"message_id": 17,
+		"from": 
 		{
-			id: 591870787,
-			is_bot: false,
-			first_name: "SomeFirstName",
-			last_name: "SomeLastName",
-			username: "someusername",
-			language_code: "de-DE"
+			"id": 591870787,
+			"is_bot": false,
+			"first_name": "SomeFirstName",
+			"last_name": "SomeLastName",
+			"username": "someusername",
+			"language_code": "de-DE"
 		},
-		chat: 
+		"chat": 
 		{
-			id: 591870787,
-			first_name: "SomeFirstName",
-			last_name "SomeLastName",
-			username: "someusername",
-			type: "private"
+			"id": 591870787,
+			"first_name": "SomeFirstName",
+			"last_name": "SomeLastName",
+			"username": "someusername",
+			"type": "private"
 		},
-			date: 1529655950,
-			text: "some chat message",
-			entities: 
+			"date": 1529655950,
+			"text": "some chat message",
+			"entities": 
 				[{
-					offset: 0, 
-					length: 5, 
-					type: "bot_command"
+					"offset": 0, 
+					"length": 5, 
+					"type": "bot_command"
 				}]
 	}
 }
