@@ -279,6 +279,47 @@ Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos
 - __URL:__ https://t.me/HSMAPraxisSemesterBot
 - __Token:__ `619166619:AAETbQdzarQiXd9yKUlmhs3zlVmzTceHPJU`
 
-__Chat Nachricht zum Bot schicken__
+__Chat-Nachricht vom Bot erhalten/zum Bot schicken__
+
+Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/telegram_bot.clj`)
+
+Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt:
+
+```
+{
+	update_id: 96255488,
+	message: 
+	{
+		message_id: 17,
+		from: 
+		{
+			id: 591870787,
+			is_bot: false,
+			first_name: "SomeFirstName",
+			last_name: "SomeLastName",
+			username: "someusername",
+			language_code: "de-DE"
+		},
+		chat: 
+		{
+			id: 591870787,
+			first_name: "SomeFirstName",
+			last_name "SomeLastName",
+			username: "someusername",
+			type: "private"
+		},
+			date: 1529655950,
+			text: "/help",
+			entities: 
+				[{
+					offset: 0, 
+					length: 5, 
+					type: "bot_command"
+				}]
+	}
+}
+```
+
+Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. [Morse](https://clojars.org/morse) verarbeitet das ankommende JSON und stellt folgendes Clojar-Objekt bereit:[Morse](https://clojars.org/morse) stellt per Callback die Möglichkeit bereit, eine Antwort an Telegram zu übergeben.
 
 ---
