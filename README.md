@@ -379,7 +379,7 @@ Von Telegram werden Nachrichten mit REST per POST Request als JSON im Body über
 <img src="readme_resources/cert_upload_success.png" alt="Certificate Upload Success">
 </p>
 
-Verwendet man authentifiziertes Zertifikat, so reicht es die Zeile
+__Verwendet man ein authentifiziertes Zertifikat__, so reicht es die Zeile
 
 ```Clojure
 ; (api/set-webhook token "https://efp-chatbot.westeurope.cloudapp.azure.com/api/telegram_handlerr")
