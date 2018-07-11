@@ -349,7 +349,7 @@ __Output:__ Chat-Nachricht des Bots als String
 
 __Beschreibung__
 
-Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos, über den der Bot erstellt wurde. Nur dieses Konto kann Änderungen am Bot vornehmen, mithilfe eines Chats mit dem Telegram-Bot `Botfather`. Dieser Ablauf kann nicht verändert werden. Es kann jedoch einfach ein neuer Bot erstellt werden und der Token im Quellcode verändert werden, damit dieser funktioniert. Mehr Informationen sind in der [Beschreibung der Telegram Bot API](https://core.telegram.org/bots/api) verfügbar.
+Beim Erstellen eines Telegram-Bots, wird dieser Bot Eigentum des Telegram Kontos, über den der Bot erstellt wurde. Nur dieses Konto kann Änderungen am Bot vornehmen, mithilfe eines Chats mit dem Telegram-Bot `Botfather`. Dieser Ablauf kann nicht verändert werden. Es kann jedoch einfach ein neuer Bot erstellt werden und der Token im Quellcode in `backend/src/telegram_bot.clj` verändert werden, damit dieser funktioniert. Mehr Informationen sind in der [Beschreibung der Telegram Bot API](https://core.telegram.org/bots/api) verfügbar.
 
 - __Bot User Name:__ HSMAPraxisSemesterBot
 - __URL:__ https://t.me/HSMAPraxisSemesterBot
@@ -359,7 +359,32 @@ __Chat-Nachricht vom Bot erhalten/zum Bot schicken__
 
 Für die Kommunikation des Chatbots mit Telegram wird das Clojar [Morse](https://clojars.org/morse) eingesetzt. Die in der Architektur beschriebene Backend-Komponente "telegram-bot" (`backend/src/telegram_bot.clj`) nutzt die von [Morse](https://clojars.org/morse) angebotenen Methoden, um die Kommunikation mit Telegram zu übernehmen und die eingehenden Fragen zu verwerten.
 
-Von Telegram werden Nachrichten mit REST per POST Request als JSON übermittelt. Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. Dies geschieht... . Das JSON ist wie folgt aufgebaut:
+Von Telegram werden Nachrichten mit REST per POST Request als JSON im Body übermittelt. Dazu muss der Chatbot zunächst einen Webhook für Telegram setzen. Dies geschieht wie folgt __wenn man ein self-signed Certificate verwendet__:
+
+1. Host und Port in der Datei `devops/telegram_cert_upload.html` müssen korrekt gesetzt sein
+2. `devops/telegram_cert_upload.html` mit browser öffnen. Folgendes erscheint:
+
+<p align="center">
+<img src="readme_resources/cert_upload.png" alt="Certificate Upload">
+</p>
+
+3. Auf `Datei auswählen` klicken und `devops/reverse-proxy/certificate.crt` auswählen
+4. Auf `Upload Certificate` klicken. Bei Erfolg erscheint folgende Response:
+
+<p align="center">
+<img src="readme_resources/cert_upload_success.png" alt="Certificate Upload Success">
+</p>
+
+Verwendet man authentifiziertes Zertifikat, so reicht es die Zeile
+
+```Clojure
+; (api/set-webhook token "https://efp-chatbot.westeurope.cloudapp.azure.com/api/telegram_handlerr")
+```
+
+in `backend/src/telegram_bot.clj` wieder einzukommentieren und die URL anzupassen.
+
+
+Das JSON, welches die Telegram-Nachricht enthält, ist wie folgt aufgebaut:
 
 ```JSON
 {
