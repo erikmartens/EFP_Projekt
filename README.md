@@ -37,7 +37,13 @@ __Dokumentation__
 
 ## Deployment-Anleitung
 
-Das System nutzt die lokale Registry.
+Das System nutzt die lokale Registry. Damit alles ausgeführt werden kann, mussen zusätzlich folgendes (gloabal) auf dem Ziel-Rechner installiert sein:
+
+- Docker
+- Docker Compose (bei Mac schon in Docker enthalten, bei Linux extra installieren)
+- node.js
+
+Danach können zu Starten folgende Skripte verwendet werden:
 
 1. `init.sh` ausführen
 2. `build.sh`ausführen
@@ -124,8 +130,39 @@ Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 __Eingesetzte Pattern__
 
 1. Chain of Operations
+
+Beispielsweise in der Komponente "recognition" wird Chain of Operations verwendet, um unnötige Variablen zu vermeiden.
+
+```
+// BSP:
+
+; answer-from-intent : String -> String
+(defn answer-from-intent
+  "Converts an existing intent into the corresponding faq answer."
+  [ intent ]
+  (->> questions
+       (filter (fn [ question ] (= (:intent question) intent)))
+       (first)
+       (get-answer)))
+```
+
 2. Function Builder
+
+Unter Anderem in den Komponenten "recoginition" und "utils" wird das Function Builder Pattern verwendet, um von der Thread-First auf die Thread-Last-Schreibweise zu wechseln und um die Lesbarkeit und Wartbarkeit zu verbessern. 
+
+```
+// BSP:
+
+(defn get-thread-last
+  "Use this version if you need to use the first-thread macro inside the last-thread macro."
+  [ _key ]
+  (fn [ _map ]
+    (get _map (keyword _key))))
+```
+
 3. Map, Filter, Reduce
+
+In der Kompnente Recognition werden alle drei Higher-Order-Functions verwendet, unter Anderem um die Filterungs-Stufen der Intenterkennung zu realisieren (siehe Intenterkennung.)
 
 ### Frontend
 
@@ -193,7 +230,7 @@ __Eingesetzte Pattern__
 
 ### REST Schnittstelle
 
-Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `/query` zur Verfügung.
+Das REST Interface ist von Dialogflow inspiriert. Als Resource steht `api/query` zur Verfügung.
 
 __Request__
 
@@ -223,24 +260,35 @@ __Response__
 	}
 	```
 	
-Als weitere Schnittstelle steht `/chat` bereit.
+Als Schnittstelle für das Abholden des Nutzer-Chat-Verlaufs steht `api/chat` bereit.
 
 __Request__
 
-- Query: userId
+Als URL-encoded HTTP-Request
+
+- Query-Parameter: userId
+
+```
+// BSP:
+
+api/chat?userId=1234567689
+```
 
 __Response__
 
+- StatusCode: HTTP-Status-Code
 - Body:
     ```
-    {
+    [{
       "userId" : "String", 
       "userChatMessage" : "String",
       "answer" : "String",
       "intentName" : "String",
       "timeStamp" : "Float"
-    }
+    }]
     ```
+
+Wird für die User ID kein Verlauf gefunden, so wird ein leeres Array zurückgesendet, da der Nutzer neu ist (oder nicht existiert) und somit einen leeren Verlauf hat.
 
 ---
 
@@ -260,15 +308,15 @@ Chat-Nachricht des Bots als String
 
 __Ablauf__
 
-1. Rechtschreibüberprüfung (optional) mit dem [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector)
+0. Rechtschreibüberprüfung (optional) mit dem [Norvig Spelling Corrector](https://en.wikibooks.org/wiki/Clojure_Programming/Examples/Norvig_Spelling_Corrector) __[optional, wird nicht verwendet]__
 
-2. Alle Satz- und Sonderzeichen werden entfernt (`remove-punctuation`)
+1. Alle Satz- und Sonderzeichen werden entfernt (`remove-punctuation`)
 
-3. Alle unnötigen Wörter (`stop words`) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe `backend/resources/stop-words.json`).
+2. Alle unnötigen Wörter (`stop words`) werden entfernt (`remove-stop-words`). Alle in diesem Schritt entfernten Wörter tragen nichts zum Erkennen der Frage bei. Dies sind unter anderem der, die, das, ist, dessen (siehe `backend/resources/stop-words.json`).
 
-4. Alle Wörter werden auf ihren Grundtyp abgebildet (`stem-sentence`) mit dem [Snowball Stemmer](https://clojars.org/snowball-stemmer). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
+3. Alle Wörter werden auf ihren Grundtyp abgebildet (`stem-sentence`) mit dem [Snowball Stemmer](https://clojars.org/snowball-stemmer). Um alle Fragen grammatikalisch anzugleichen und ähnliche Wörter auf den Grundtyp abzubilden, wird ein Stemming genannter Vorgang ausgeführt. Während des Stemmings werden die Wordenden heuristisch abgeschnitten.
 
-5. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
+4. Nachdem die Nutzeranfrage auch bearbeitet wurde, wird mit allen Chatbot-Fragen die Kosinus-Ähnlichkeit ([Cosine-Similarity](https://github.com/WojciechKarpiel/cosine-similarity/blob/master/core.clj)) errechnet und anschließend die Frage mit dem höchsten Wert zurückgeliefert.
 
 > __Anmerkung__ Mit der Cosine-Similarity ohne Rechtschreibprüfung und mehreren Fragen getestet. Es funktioniert überraschend gut.
 Es sollte ausreichen wenn wir mehrere Versionen der Frage und eine Rechtschreibüberprüfung haben.
