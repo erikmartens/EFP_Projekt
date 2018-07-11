@@ -117,6 +117,10 @@ Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 
 ### Backend
 
+<p align="center">
+<img src="readme_resources/backend_schematic.png" alt="Backend Baustein-Sicht" height="128" width="128">
+</p>
+
 __Eingesetzte Pattern__
 
 1. Chain of Operations
@@ -124,6 +128,10 @@ __Eingesetzte Pattern__
 3. Map, Filter, Reduce
 
 ### Frontend
+
+<p align="center">
+<img src="readme_resources/frontend_schematic.png" alt="Frontend Baustein-Sicht" height="128" width="128">
+</p>
 
 Das Frontend ist in Elm, einer an Haskell orientierten funktionalen Programmiersprache implementiert.
 Elm wird durch einen Compiler zu JavaScript transpiliert.
