@@ -123,6 +123,8 @@ Der Chat-Bot unterteilt sich in zwei Hauptkomponenten; Frontend und Backend.
 
 ### Backend
 
+Bausteinsicht - Komponenten des Backends
+
 <p align="center">
 <img src="readme_resources/backend_schematic.png" alt="Backend Baustein-Sicht">
 </p>
@@ -165,6 +167,8 @@ Unter Anderem in den Komponenten "recoginition" und "utils" wird das Function Bu
 In der Kompnente Recognition werden alle drei Higher-Order-Functions verwendet, unter Anderem um die Filterungs-Stufen der Intenterkennung zu realisieren (siehe Intenterkennung.)
 
 ### Frontend
+
+Bausteinsicht - Komponenten des Frontends
 
 <p align="center">
 <img src="readme_resources/frontend_schematic.png" alt="Frontend Baustein-Sicht">
